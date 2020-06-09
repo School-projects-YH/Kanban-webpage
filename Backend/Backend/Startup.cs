@@ -37,12 +37,15 @@ namespace Backend
             });
 
 
-            services.AddDbContext<KanBanContext>(opt => opt.UseSqlite("KanBan"));
+            services.AddDbContext<Models.KanBanContext>(opt => opt.UseSqlite("KanBan"));
 
 
 
 
             services.AddControllers();
+
+            //services.AddDbContext<Models.KanBanContext>(options =>
+              //      options.UseSqlServer(Configuration.GetConnectionString("Context")));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

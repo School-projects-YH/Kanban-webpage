@@ -1,14 +1,14 @@
 using Microsoft.EntityFrameworkCore;
 
-namespace Backend
+namespace Backend.Models
 {
         public class KanBanContext : DbContext 
         {
 
             public KanBanContext(DbContextOptions<KanBanContext> options): base(options){}
-                public DbSet<Board> board {get; set;}
-                public DbSet<Card> card {get; set;}
-                public DbSet<Column> column {get; set;}
+                public DbSet<Board> Board {get; set;}
+                public DbSet<Card> Card {get; set;}
+                public DbSet<Column> Column {get; set;}
 
                 protected override void OnConfiguring(DbContextOptionsBuilder options)
                 {
