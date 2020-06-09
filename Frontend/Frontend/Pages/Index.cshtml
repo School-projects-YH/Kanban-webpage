@@ -6,20 +6,12 @@
 
 
 <div id="mainDiv">
-    <div class="divRow" id="divLeft">
-        1
-    </div>
-    
-    <div class="divRow" id="divMiddleLeft">
-        2
-    </div>
-
-    <div class="divRow" id="divMiddleRight">
-        3
-    </div>
-    <div class="divRow" id="divRight">
-        4
-    </div>
+    @foreach (var item in @Model.boardList)
+    {
+        <div>
+            <p>@item.Title</p>
+        </div>
+    }
 
 </div>
 
