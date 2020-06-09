@@ -10,6 +10,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.EntityFrameworkCore;
 
 namespace Backend
 {
@@ -21,10 +22,26 @@ namespace Backend
         }
 
         public IConfiguration Configuration { get; }
+        readonly string CORSPolicy = "_corsPolicy";
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+                
+                services.AddCors(options =>
+            {
+                options.AddPolicy(CORSPolicy, builder =>
+                {
+                    builder.WithOrigins("http://127.0.0.1:5500").AllowAnyHeader().AllowAnyMethod();
+                });
+            });
+
+
+            services.AddDbContext<KanBanContext>(opt => opt.UseSqlite("KanBan"));
+
+
+
+
             services.AddControllers();
         }
 
@@ -36,7 +53,7 @@ namespace Backend
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseHttpsRedirection();
+            //app.UseHttpsRedirection();
 
             app.UseRouting();
 
@@ -46,6 +63,7 @@ namespace Backend
             {
                 endpoints.MapControllers();
             });
+            app.UseCors(CORSPolicy);
         }
     }
 }
