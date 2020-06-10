@@ -40,7 +40,7 @@ namespace Backend.Controllers
                            where a.Id == id
                            select new
                            {
-                               Id = b.Id,
+                               Id = c.Id,
                                Title = a.Title,
                                ColumnId = b.Id,
                                Info = c.Info
