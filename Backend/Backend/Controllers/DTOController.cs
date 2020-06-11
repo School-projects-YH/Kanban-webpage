@@ -32,7 +32,7 @@ namespace Backend.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<List<CardDTO>>> GetCard(int BoarIid)
         {
-            //var card = await _context.Card.FindAsync(id);
+           
 
             var dtoQuery = await (from card in _context.Card
                            join board in _context.Board on card.BoardId equals board.Id
