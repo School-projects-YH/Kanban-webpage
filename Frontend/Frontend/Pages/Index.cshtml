@@ -4,22 +4,26 @@
     ViewData["Title"] = "Home page";
 }
 
+<link rel="stylesheet" type="text/css" href="~/css/index.css" />
 
 <div id="mainDiv">
     @foreach (var item in @Model.boardList)
     {
         <div>
-            <p>@item.Title</p>
+           
+           
+            <h5 onclick="location.href='/Board?id=@item.Id'">@item.Title</h5>
+            
         </div>
     }
 
 </div>
 
+<div id="newBoardForm">
+    <form onsubmit="CreateBoard()">
+        <input type="text" id="btitle" name="btitle" value="New board title">
+        <input type="submit" id="submit-btn" name="submit-btn" value="Create">
+    </form>
+</div>
 
-<style>
-.divRow{
-    float: left;
-    width: 25%;
-}
-
-</style>
+ 

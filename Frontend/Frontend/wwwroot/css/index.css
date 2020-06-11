@@ -1,0 +1,23 @@
+﻿.divRow {
+    float: left;
+    width: 25%;
+}
+
+#newBoardForm {
+    float: right;
+}
+
+input[type=button], input[type=submit], input[type=reset] {
+    background-color: #4CAF50;
+    border: 1px solid black;
+    color: white;
+    padding: 8px 16px;
+    text-decoration: none;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+input[type=text]:focus {
+    border: 3px solid #555;
+}

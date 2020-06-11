@@ -1,0 +1,56 @@
+@page
+@model Frontend.Pages.BoardModel
+@{
+    ViewData["Title"] = "Boards";
+}
+
+
+<div id="mainDiv">
+   <div class="divRow" style="background-color: grey">
+       <div >
+            <h3>Backlog</h3>
+       </div>
+       @foreach(var item in @Model.columnOne)
+       {<div>
+                <p>@item.Info</p>
+       </div>             
+       }
+   </div>
+   <div class="divRow"  style="background-color: pink">
+    <div >
+        <h3>Todo</h3>
+   </div>
+    @foreach(var item in @Model.columnTwo)
+    {
+             <p>@item.Info</p>
+    }       
+   </div>
+   <div class="divRow" style="background-color: rgb(23, 194, 66)" >
+    <div >
+        <h3>Doing</h3>
+   </div>
+    @foreach(var item in @Model.columnThree)
+    {
+             <p>@item.Info</p>
+    }
+   </div>
+   <div class="divRow"  style="background-color: rgb(135, 36, 192)">
+    <div >
+        <h3>Done</h3>
+   </div>
+    @foreach(var item in @Model.columnFour)
+    {
+             <p>@item.Info</p>
+    }
+   </div>
+
+</div>
+
+
+<style>
+.divRow{
+    float: left;
+    width: 25%;
+}
+
+</style>
