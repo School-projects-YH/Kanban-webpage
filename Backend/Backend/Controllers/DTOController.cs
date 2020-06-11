@@ -30,32 +30,31 @@ namespace Backend.Controllers
 
         // GET: api/DTO/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<List<CardDTO>>> GetCard(int id)
+        public async Task<ActionResult<List<CardDTO>>> GetCard(int BoarIid)
         {
            
 
-            var dtoQuery = from c in _context.Card
-                           join a in _context.Board on c.BoardId equals a.Id
-                           join b in _context.Column on c.ColumnId equals b.Id
-                           where a.Id == id
-                           select new
-                           {
-                               Id = c.Id,
-                               Title = a.Title,
-                               ColumnId = b.Id,
-                               Info = c.Info
-                           };
+            var dtoQuery = await (from card in _context.Card
+                           join board in _context.Board on card.BoardId equals board.Id
+                           join column in _context.Column on card.ColumnId equals column.Id
+                           where card.Id == BoarIid
+                           select card).ToListAsync();
+
             if (dtoQuery == null)
             {
                 return NotFound();
             }
+            
             List<CardDTO> dto = new List<CardDTO>();
+            
             foreach (var item in dtoQuery)
             {
-                var dtoCard = new CardDTO { Id = item.Id, Title = item.Title, ColumnId = item.ColumnId, Info = item.Info };
+                var dtoCard = new CardDTO { Id = item.Id, ColumnId = item.ColumnId, Info = item.Info };
                 dto.Add(dtoCard);
             }
+            
             return dto;
+
         }
 
         // PUT: api/Card/5
