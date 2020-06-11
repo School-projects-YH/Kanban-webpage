@@ -28,9 +28,15 @@ namespace Backend.Controllers
         [HttpPut("left")]
         public async Task<IActionResult> MoveLeft(Card card)
         {
-
-            card.ColumnId = (card.ColumnId - 1);
-            _context.Entry(card).State = EntityState.Modified;
+            if (card.ColumnId != 1)
+            {
+                card.ColumnId = (card.ColumnId - 1);
+                _context.Entry(card).State = EntityState.Modified;
+            }
+            else
+            {
+                return BadRequest();
+            }
 
             try
             {
@@ -54,9 +60,15 @@ namespace Backend.Controllers
         [HttpPut("right")]
         public async Task<IActionResult> MoveRight(Card card)
         {
-
-            card.ColumnId = (card.ColumnId + 1);
-            _context.Entry(card).State = EntityState.Modified;
+            if (card.ColumnId != 4)
+            {
+                card.ColumnId = (card.ColumnId + 1);
+                _context.Entry(card).State = EntityState.Modified;
+            }
+            else
+            {
+                return BadRequest();
+            }
 
             try
             {
