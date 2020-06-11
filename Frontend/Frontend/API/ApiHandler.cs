@@ -26,7 +26,7 @@ namespace Frontend.API
             _client = client;
         }
 
-        public async Task<BoardDTO[]> GetBoardsAsync(string url = "http://localhost:9001/api/board")
+        public async Task<BoardDTO[]> GetBoardsAsync(string url = "http://localhost:9000/api/board")
         {
             HttpResponseMessage response = await _client.GetAsync(url);
 
@@ -42,6 +42,20 @@ namespace Frontend.API
         {
             HttpResponseMessage response = await _client.GetAsync(url);
 
+            if (response.IsSuccessStatusCode)
+            {
+                var card = await response.Content.ReadAsAsync<CardDTO[]>();
+                return card;
+            }
+            return null;
+        }
+        public async Task<CardDTO[]> GetCardsByBoardIdAsync(int id)
+        {
+           string url ="http://localhost:9000/api/dto/"+id;
+            //string url ="http://localhost:9001/api/dto/1";
+          
+            HttpResponseMessage response = await _client.GetAsync(url);
+                
             if (response.IsSuccessStatusCode)
             {
                 var card = await response.Content.ReadAsAsync<CardDTO[]>();
