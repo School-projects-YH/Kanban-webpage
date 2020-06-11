@@ -49,6 +49,7 @@ namespace Backend.Controllers
             }
              return dtoQuery;
         
+        
         }
 
         // PUT: api/Card/5
