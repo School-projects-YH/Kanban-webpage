@@ -1,0 +1,50 @@
+.column {
+  float: left;
+  width: 24%;
+  margin: 4px;
+  padding: 5px;
+  background-color: lightgray;
+}
+
+.title {
+  text-align: center;
+  background-color: lightskyblue;
+}
+.card {
+  background-color: whitesmoke;
+}
+
+.leftButton {
+  width: 20%;
+  margin-left: 3px;
+  float: left;
+}
+.rightButton {
+  width: 15%;
+  float: right;
+}
+button {
+  background: rgba(0, 0, 0, 0);
+  border: none;
+
+  text-decoration: none;
+  display: inline-block;
+  padding: 2px 12px;
+}
+
+button:hover {
+  background-color: #ddd;
+  color: black;
+}
+
+.previous {
+  color: black;
+}
+
+.next {
+  color: black;
+}
+
+.round {
+  border-radius: 25%;
+}

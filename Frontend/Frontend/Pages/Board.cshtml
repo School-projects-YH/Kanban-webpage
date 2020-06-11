@@ -1,0 +1,110 @@
+@page
+@model Frontend.Pages.BoardModel
+@{
+    ViewData["Title"] = "Boards";
+}
+
+
+<link rel="stylesheet" type="text/css" href="~/css/Board.css" />
+
+<div id="mainDiv">
+   <div class="column" >
+       <div class="title">
+            <h3>Backlog</h3>
+       </div>
+       @foreach(var item in @Model.columnOne)
+       {
+           
+           <div style="background-color: grey; height:10px">
+            </div>
+           
+            <div class="card">
+                <p>@item.Info</p>
+                <div>
+            <div class="leftButton">
+                
+                <button type="button" class="previous round">&#8249;</button>
+            </div>
+            <div class="rightButton">
+                <button type="button" class="next round">&#8250;</button>
+            </div>
+            </div>
+            </div>             
+       }
+   </div>
+   <div class="column">
+    <div class="title">
+        <h3>Todo</h3>
+   </div>
+    @foreach(var item in @Model.columnTwo)
+    {
+        <div style="background-color: grey; height:10px">
+            </div>
+
+        <div class="card">
+            <p>@item.Info</p>
+            <div>
+            <div class="leftButton">
+                
+                
+                <button type="button" class="previous round">&#8249;</button>
+            </div>
+            <div class="rightButton">
+                <button type="button" class="next round">&#8250;</button>
+            </div>
+            </div>
+        </div>
+    }       
+   </div>
+   <div class="column" >
+    <div class="title">
+        <h3>Doing</h3>
+   </div>
+    @foreach(var item in @Model.columnThree)
+    {
+        <div style="background-color: grey; height:10px">
+            </div>
+
+        <div class="card">
+            <p>@item.Info</p>
+            <div>
+            <div class="leftButton">
+                
+                <button type="button" class="previous round">&#8249;</button>
+            </div>
+            <div class="rightButton">
+                <button type="button" class="next round">&#8250;</button>
+            </div>
+            </div>
+        </div>
+        
+    }
+   </div>
+   <div class="column">
+    <div class="title">
+        <h3>Done</h3>
+   </div>
+    @foreach(var item in @Model.columnFour)
+    {
+        <div style="background-color: grey; height:10px">
+        </div>
+
+        <div class="card">
+            <p>@item.Info</p>
+            <div>
+            <div class="leftButton">
+                
+                <button type="button" class="previous round">&#8249;</button>
+            </div>
+            <div class="rightButton">
+                <button type="button" class="next round">&#8250;</button>
+            </div>
+            </div>
+        </div>
+    }
+   </div>
+
+</div>
+
+
+
