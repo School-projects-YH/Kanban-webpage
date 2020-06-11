@@ -1,0 +1,49 @@
+@page
+@model Frontend.Pages.BoardModel
+@{
+    ViewData["Title"] = "Boards";
+}
+
+
+<div id="mainDiv">
+   <div class="divRow">
+       @foreach(var item in @Model.columnOne)
+       {
+                <p>@item.Info</p>
+       }
+   </div>
+   <div class="divRow">
+    @foreach(var item in @Model.columnTwo)
+    {
+             <p>@item.Info</p>
+    }       
+
+
+    </div>
+   <div class="divRow">
+
+
+
+    @foreach(var item in @Model.columnThree)
+    {
+             <p>@item.Info</p>
+    }
+   </div>
+   <div class="divRow">
+
+    @foreach(var item in @Model.columnFour)
+    {
+             <p>@item.Info</p>
+    }
+   </div>
+
+</div>
+
+
+<style>
+.divRow{
+    float: left;
+    width: 25%;
+}
+
+</style>

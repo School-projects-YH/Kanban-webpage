@@ -49,6 +49,20 @@ namespace Frontend.API
             }
             return null;
         }
+        public async Task<CardDTO[]> GetCardsByBoardIdAsync(int id)
+        {
+           string url ="http://localhost:9001/api/dto/"+id;
+            //string url ="http://localhost:9001/api/dto/1";
+          
+            HttpResponseMessage response = await _client.GetAsync(url);
+                
+            if (response.IsSuccessStatusCode)
+            {
+                var card = await response.Content.ReadAsAsync<CardDTO[]>();
+                return card;
+            }
+            return null;
+        }
 
 
     }

@@ -9,7 +9,10 @@
     @foreach (var item in @Model.boardList)
     {
         <div>
-            <p>@item.Title</p>
+           
+           
+            <h5 onclick="location.href='/Board?id=@item.Id'">@item.Title</h5>
+            
         </div>
     }
 
