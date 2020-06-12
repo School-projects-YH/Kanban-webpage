@@ -28,9 +28,9 @@ namespace Frontend.Pages
         public bool IsLoggedIn = false;
         public bool CreateNewAccount = false;
 
-        public async Task OnGet()
+        public void OnGet()
         {
-            await GetBoardsFromDBAsync();
+
         }
         //public IActionResult Onpost()
         //{
@@ -38,18 +38,7 @@ namespace Frontend.Pages
         //return RedirectToPage("/Board");
         //}
 
-        public async Task GetBoardsFromDBAsync()
-        {
-            ApiHandler api = new ApiHandler(client);
 
-            var boards = await api.GetBoardsAsync();
-
-            foreach (var item in boards)
-            {
-
-                boardList.Add(item);
-            }
-        }
 
     }
 }

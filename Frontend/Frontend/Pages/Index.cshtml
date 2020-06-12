@@ -9,28 +9,7 @@
 <link rel="stylesheet" type="text/css" href="~/css/util.css" />
 
 <div id="Div">
-    @if(Model.IsLoggedIn){
-        <div id="mainDiv">
-        @foreach (var item in @Model.boardList)
-        {
-            <div>
-           
-                <h5 onclick="location.href='/Board?id=@item.Id'">@item.Title</h5>
-            
-            </div>
-            
-        }
-
-
-        <div id="newBoardForm">
-            <form onsubmit="CreateBoard()">
-                <input type="text" id="btitle" name="btitle" value="New board title">
-                <input type="submit" id="submit-btn" name="submit-btn" value="Create">
-            </form>
-    </div>
-
-        </div>
-    }else if (@Model.IsLoggedIn == false && @Model.CreateNewAccount == false){
+    
         <div class="limiter">
 		<div class="container-login100">
 			<div class="wrap-login100 p-l-55 p-r-55 p-t-65 p-b-50">
@@ -52,9 +31,10 @@
 					</div>
 
 					<div class="container-login100-form-btn m-t-20">
-						<button class="login100-form-btn">
+						<!-- SKA VARA EN KNAPP, ÄR EN LÄNK FÖR TILLFÄLLET -->
+						<a type="submit" class="login100-form-btn" onclick="location.href='/LoggedIn'">
 							Sign in
-						</button>
+						</a>
 					</div>
                     <br>
 					<div class="text-center">
@@ -71,47 +51,6 @@
 		</div>
 	</div>
 
-
-
-        
-    }else if(@Model.IsLoggedIn == false && @Model.CreateNewAccount == true){
-        <div class="limiter">
-		<div class="container-login100">
-			<div class="wrap-login100 p-l-55 p-r-55 p-t-65 p-b-50">
-				<form class="login100-form validate-form">
-					<span class="login100-form-title p-b-33">
-						Register New Account
-					</span>
-
-					<div class="wrap-input100 validate-input" data-validate = "Valid email is required: ex@abc.xyz">
-						<input class="input100" type="text" name="email" placeholder="Email">
-						<span class="focus-input100-1"></span>
-						<span class="focus-input100-2"></span>
-					</div>
-
-					<div class="wrap-input100 rs1 validate-input" data-validate="Password is required">
-						<input class="input100" type="password" name="pass" placeholder="Password">
-						<span class="focus-input100-1"></span>
-						<span class="focus-input100-2"></span>
-					</div>
-                    <div class="wrap-input100 rs1 validate-input" data-validate="Password is required">
-						<input class="input100" type="password" name="passVerification" placeholder="Password Verification">
-						<span class="focus-input100-1"></span>
-						<span class="focus-input100-2"></span>
-					</div>
-
-					<div class="container-login100-form-btn m-t-20">
-						<button class="login100-form-btn">
-							Register
-						</button>
-					</div>
-
-					
-				</form>
-			</div>
-		</div>
-	</div>
-    }
     
 </div>
 
