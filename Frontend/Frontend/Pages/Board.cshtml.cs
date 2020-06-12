@@ -36,6 +36,12 @@ namespace Frontend.Pages
             await GetCardsByBoardIdAsync(Id);
 
         }
+        public async Task Onpost()
+        {
+            var id = Request.Form["cardId"];
+            var id2 = 999;
+            Console.WriteLine(id+ id2);
+        }
 
         public async Task GetCardsByBoardIdAsync(int Id)
         {

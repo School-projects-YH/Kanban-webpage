@@ -26,7 +26,7 @@ namespace Frontend.API
             _client = client;
         }
 
-        public async Task<BoardDTO[]> GetBoardsAsync(string url = "http://localhost:9000/api/board")
+        public async Task<BoardDTO[]> GetBoardsAsync(string url = "https://localhost:9001/api/board")
         {
             HttpResponseMessage response = await _client.GetAsync(url);
 
@@ -38,7 +38,7 @@ namespace Frontend.API
             return null;
         }
 
-        public async Task<CardDTO[]> GetCardsAsync(string url = "http://localhost:9000/api/dto")
+        public async Task<CardDTO[]> GetCardsAsync(string url = "https://localhost:9001/api/dto")
         {
             HttpResponseMessage response = await _client.GetAsync(url);
 
@@ -51,7 +51,7 @@ namespace Frontend.API
         }
         public async Task<CardDTO[]> GetCardsByBoardIdAsync(int id)
         {
-            string url = "http://localhost:9000/api/dto/" + id;
+            string url = "https://localhost:9001/api/dto/" + id;
             //string url ="http://localhost:9001/api/dto/1";
 
             HttpResponseMessage response = await _client.GetAsync(url);
@@ -62,6 +62,20 @@ namespace Frontend.API
                 return card;
             }
             return null;
+        }
+       
+        public async Task MoveLeftAsync(int id)
+        {
+            string url = "https://localhost:9001/api/cardmovement/left";
+            
+            await _client.PutAsJsonAsync(url, id);
+        }
+
+        public async Task MoveRightAsync(int id)
+        {
+            string url = "https://localhost:9001/api/cardmovement/right";
+            
+            await _client.PutAsJsonAsync(url, id);
         }
 
 
