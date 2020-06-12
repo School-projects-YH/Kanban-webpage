@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Frontend.API.DTO;
+using Frontend.API.Model;
 using Frontend.API;
 using System.Net.Http;
 
@@ -55,17 +55,48 @@ namespace Frontend.API.Services
         }
 
         // Create
-        public async Task Create(CardDTO cardDTO)
+        public async Task<int> Create(CardDTO cardDTO)
         {
             using (_httpClient)
             {
-                var response = await _httpClient.GetAsync(url);
+                var response = await _httpClient.PostAsJsonAsync(url, cardDTO);
+                var cardId = Convert.ToInt32(response.Headers.Location);
+                return cardId;
             }
         }
 
-        // Deleate
+        // Delete
+
+        public async Task Delete(CardDTO cardDTO)
+        {
+            using (_httpClient)
+            {
+                var response = await _httpClient.DeleteAsync(url + cardDTO.Id);
+            }
+        }
+
         // Update
+        public async Task<CardDTO> Update(CardDTO cardDTO)
+        {
+            using (_httpClient)
+            {
+                var response = await _httpClient.PutAsJsonAsync(url + cardDTO.Id, cardDTO);
+                var card = await response.Content.ReadAsAsync<CardDTO>();
+                return card;
+            }
+        }
+
         // Find by id
+
+        public async Task<CardDTO> FindById(int id)
+        {
+            using(_httpClient)
+            {
+                var response = await _httpClient.GetAsync(url + id);
+                var card = await response.Content.ReadAsAsync<CardDTO>();
+                return card;
+            }
+        }
     }
 }
 
