@@ -14,7 +14,7 @@ namespace Frontend.Pages
     public class IndexModel : PageModel
     {
         private readonly ILogger<IndexModel> _logger;
-         public int Id { get; set; }
+        public int Id { get; set; }
         HttpClient client;
 
         public IndexModel(ILogger<IndexModel> logger)
@@ -25,14 +25,17 @@ namespace Frontend.Pages
 
         public List<BoardDTO> boardList = new List<BoardDTO>();
 
+        public bool IsLoggedIn = false;
+        public bool CreateNewAccount = false;
+
         public async Task OnGet()
         {
             await GetBoardsFromDBAsync();
         }
         //public IActionResult Onpost()
         //{
-          //  GetCardsByBoardIdAsync(1);
-           //return RedirectToPage("/Board");
+        //  GetCardsByBoardIdAsync(1);
+        //return RedirectToPage("/Board");
         //}
 
         public async Task GetBoardsFromDBAsync()
@@ -43,10 +46,10 @@ namespace Frontend.Pages
 
             foreach (var item in boards)
             {
-                
+
                 boardList.Add(item);
             }
         }
-       
+
     }
 }
