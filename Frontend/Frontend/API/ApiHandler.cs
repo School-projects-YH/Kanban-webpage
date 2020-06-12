@@ -17,10 +17,29 @@ namespace Frontend.API
     }
 
 
-    public class ApiHandler : IApiHandler
+    public class ApiHandler : IDisposable
     {
         HttpClient _client;
+        private bool _disposed = false;
+        public void Dispose() => Dispose(true);
+        public void Dispose(bool disposing)
+        {
+            if(_disposed)
+            {
+                return;
+            }
 
+            if(disposing)
+            {
+                _client?.Dispose();
+            }
+            _disposed = true;
+            GC.SuppressFinalize(this);
+        }
+        public ApiHandler()
+        {
+            _client = new HttpClient();
+        }
         public ApiHandler(HttpClient client)
         {
             _client = client;
@@ -103,7 +122,5 @@ namespace Frontend.API
             }
             
         }
-
-
     }
 }
