@@ -1,17 +1,16 @@
 .column {
-  float: left;
-  width: 24%;
-  margin: 4px;
-  padding: 5px;
-  background-color: lightgray;
+    float: left;
+    width: 24%;
+    padding: 10px;
+    border-radius: 16px;
+    background-color: rgba(0, 0, 0, 0.09);
+    margin: 5px;
 }
 
 .title {
-  text-align: center;
-  background-color: lightskyblue;
-}
-.card {
-  background-color: whitesmoke;
+    text-align: center;
+    border-radius: 8px;
+    background-color: #808080;
 }
 
 .leftButton {
@@ -23,6 +22,7 @@
   width: 15%;
   float: right;
 }
+
 button {
   background: rgba(0, 0, 0, 0);
   border: none;

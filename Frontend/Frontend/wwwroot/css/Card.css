@@ -1,0 +1,9 @@
+﻿body {
+}
+
+.color-field {
+    background-color: #00ff90;
+    height: 30px;
+    border-radius: 15px 15px 0px 0px;
+    margin-top: 10px;
+}
