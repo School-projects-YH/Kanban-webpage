@@ -15,7 +15,7 @@ namespace Frontend.Pages
     {
         
         private readonly ILogger<BoardModel> _logger;
-        public int Id { get; set; }
+        public static int BoardId { get; set; }
         HttpClient client;
 
         public BoardModel(ILogger<BoardModel> logger)
@@ -32,15 +32,17 @@ namespace Frontend.Pages
 
         public async Task OnGet(int Id)
         {
-            Console.WriteLine(Id);
+            BoardId = Id;
             await GetCardsByBoardIdAsync(Id);
 
         }
-        public async Task Onpost()
+        public async Task OnPost()
         {
-            var id = Request.Form["cardId"];
-            var id2 = 999;
-            Console.WriteLine(id+ id2);
+            var cardId = Request.Form["cardId"];
+            var link = String.Format("/Board?id={0}", BoardId);
+            Response.Redirect(link);
+
+
         }
 
         public async Task GetCardsByBoardIdAsync(int Id)
