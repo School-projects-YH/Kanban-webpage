@@ -71,7 +71,7 @@ namespace Backend.Controllers
                 }
             }
 
-            return NoContent();
+            return Ok(card);
         }
 
         // POST: api/Card
