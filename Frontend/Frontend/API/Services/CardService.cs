@@ -1,24 +1,24 @@
-﻿using System;
+﻿using Frontend.API.Model;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Frontend.API.Model;
-using Frontend.API;
 using System.Net.Http;
+using System.Threading.Tasks;
 
 namespace Frontend.API.Services
 {
-
     public class CardService : IService<CardDTO>
     {
-        HttpClient _httpClient;
-        string baseUrl = "https://localhost:9001/";
-        string uri = "api/card/";
-        string url { get { return baseUrl + uri; } }
+        private HttpClient _httpClient;
+        private string baseUrl = "https://localhost:9001/";
+        private string uri = "api/card/";
+        private string url
+        { get { return baseUrl + uri; } }
+
         public CardService(HttpClient httpClient)
         {
             _httpClient = httpClient;
         }
+
         public async Task<IEnumerable<CardDTO>> GetAll()
         {
             using (_httpClient)
@@ -36,6 +36,7 @@ namespace Frontend.API.Services
                 }
             }
         }
+
         public async Task<IEnumerable<CardDTO>> GetByBoardIdAsync(int boardId)
         {
             using (_httpClient)
@@ -90,7 +91,7 @@ namespace Frontend.API.Services
 
         public async Task<CardDTO> FindById(int id)
         {
-            using(_httpClient)
+            using (_httpClient)
             {
                 var response = await _httpClient.GetAsync(url + id);
                 var card = await response.Content.ReadAsAsync<CardDTO>();
@@ -99,4 +100,3 @@ namespace Frontend.API.Services
         }
     }
 }
-

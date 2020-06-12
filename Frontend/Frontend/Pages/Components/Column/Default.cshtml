@@ -1,0 +1,14 @@
+﻿@using Frontend.API.Model
+@model Column
+
+<div class="column">
+
+    <div class="title">
+        <h3>@Model.Title</h3>
+    </div>
+
+    @foreach (var item in Model.Cards)
+    {
+        @await Component.InvokeAsync("Card", item)
+    }
+</div>

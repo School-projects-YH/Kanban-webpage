@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace Frontend.API.Model
 {
@@ -11,11 +9,13 @@ namespace Frontend.API.Model
         {
             Title = title;
         }
+
         public Column(CardDTO[] cards)
         {
             Cards = cards.ToList();
             Title = "Test";
         }
+
         public string Title;
         public List<CardDTO> Cards;
     }

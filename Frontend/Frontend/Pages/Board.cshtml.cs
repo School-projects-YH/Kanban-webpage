@@ -1,42 +1,35 @@
+using Frontend.API;
+using Frontend.API.Model;
+using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net.Http;
 using System.Threading.Tasks;
-using Frontend.API;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.Extensions.Logging;
-using Frontend.API.DTO;
 
 namespace Frontend.Pages
 {
     public class BoardModel : PageModel
     {
-        
         private readonly ILogger<BoardModel> _logger;
         public static int BoardId { get; set; }
-        ApiHandler api;
+        private ApiHandler api { get; }
+        public Board board { get; set; }
 
         public BoardModel(ILogger<BoardModel> logger)
         {
             _logger = logger;
-            var client = new HttpClient();
-            api = new ApiHandler(client);
+            api = new ApiHandler();
         }
-
-          public List<CardDTO> CardList = new List<CardDTO>();
-          public List<CardDTO> columnOne = new List<CardDTO>();
-          public List<CardDTO> columnTwo = new List<CardDTO>();
-          public List<CardDTO> columnThree = new List<CardDTO>();
-          public List<CardDTO> columnFour = new List<CardDTO>();
 
         public async Task OnGet(int Id)
         {
             BoardId = Id;
-            // await GetCardsByBoardIdAsync(Id);
+            board = new Board(Id);
 
+            await GetCardsByBoardIdAsync(Id);
         }
+
         public async Task OnPost()
         {
             var cardIdValue = Request.Form["cardId"];
@@ -46,35 +39,23 @@ namespace Frontend.Pages
             Response.Redirect(link);
         }
 
-        //public async Task GetCardsByBoardIdAsync(int Id)
-        //{
+        public async Task GetCardsByBoardIdAsync(int Id)
+        {
+            var cards = await api.cardService.GetByBoardIdAsync(Id);
 
-            //var cards = await api;
+            await SortCardsIntoColumns(cards.AsEnumerable());
+        }
 
-            //foreach (var item in cards)
-            //{ 
+        private async Task SortCardsIntoColumns(IEnumerable<CardDTO> cards)
+        {
+            var cardArray = cards.ToArray();
 
-            //        switch(item.ColumnId)
-            //        {
-            //                case 1:
-            //                    columnOne.Add(item);
-            //                   break;
-            //                case 2:
-            //                     columnTwo.Add(item);
-            //                   break;
-            //                case 3:
-            //                     columnThree.Add(item);
-            //                   break;
-            //                case 4:
-            //                      columnFour.Add(item);
-            //                   break;
-
-            //        }
-
-
-
-                //CardList.Add(item);
-        //    }
-        //}
+            for (int i = 0; i < board.columns.Count; i++)
+            {
+                board.columns[i].Cards = (from array in cardArray
+                                          where array.ColumnId == (i + 1)
+                                          select array).ToList();
+            }
+        }
     }
 }
