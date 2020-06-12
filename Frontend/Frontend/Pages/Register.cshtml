@@ -4,9 +4,9 @@
     ViewData["Title"] = "Register";
 }
 
-<link rel="stylesheet" type="text/css" href="~/css/index.css" />
 <link rel="stylesheet" type="text/css" href="~/css/main.css" />
 <link rel="stylesheet" type="text/css" href="~/css/util.css" />
+<script src="site.js"></script> 
 
 <div id="mainDiv">
     <div class="limiter">
@@ -18,26 +18,26 @@
                         </span>
 
                         <div class="wrap-input100 validate-input" data-validate = "Valid email is required: ex@abc.xyz">
-                            <input class="input100" type="text" name="email" placeholder="Email">
+                            <input id="newEmail" class="input100" type="text" name="email" placeholder="Email">
                             <span class="focus-input100-1"></span>
                             <span class="focus-input100-2"></span>
                         </div>
 
                         <div class="wrap-input100 rs1 validate-input" data-validate="Password is required">
-                            <input class="input100" type="password" name="pass" placeholder="Password">
+                            <input id="newPassword" class="input100" type="password" name="newPassword" placeholder="Password">
                             <span class="focus-input100-1"></span>
                             <span class="focus-input100-2"></span>
                         </div>
                         <div class="wrap-input100 rs1 validate-input" data-validate="Password is required">
-                            <input class="input100" type="password" name="passVerification" placeholder="Password Verification">
+                            <input id="newPasswordVeri" class="input100" type="password" name="newPasswordVeri" placeholder="Password Verification">
                             <span class="focus-input100-1"></span>
                             <span class="focus-input100-2"></span>
                         </div>
 
                         <div class="container-login100-form-btn m-t-20">
-                            <button class="login100-form-btn">
-                                Register
-                            </button>
+                            <input type="button" class="login100-form-btn" value="Register" onclick="registerNewUser()">
+                                
+                            </input>
                         </div>
 
                         
