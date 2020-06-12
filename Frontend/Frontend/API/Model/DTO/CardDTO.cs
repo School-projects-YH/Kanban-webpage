@@ -1,4 +1,4 @@
-namespace Frontend.API.DTO
+namespace Frontend.API.Model
 {
     public class CardDTO : IEntity
     {
