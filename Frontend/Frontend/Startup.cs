@@ -26,7 +26,7 @@ namespace Frontend
         {
             services.AddRazorPages();
 
-            services.AddHttpClient<IApiHandler, ApiHandler>();
+            services.AddHttpClient<IDisposable, ApiHandler>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

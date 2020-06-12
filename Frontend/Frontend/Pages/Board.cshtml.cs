@@ -4,10 +4,10 @@ using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Frontend.API;
-using Frontend.DTO;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
+using Frontend.API.DTO;
 
 namespace Frontend.Pages
 {
@@ -34,7 +34,7 @@ namespace Frontend.Pages
         public async Task OnGet(int Id)
         {
             BoardId = Id;
-            await GetCardsByBoardIdAsync(Id);
+            // await GetCardsByBoardIdAsync(Id);
 
         }
         public async Task OnPost()
@@ -44,39 +44,37 @@ namespace Frontend.Pages
             await api.MoveLeftAsync(cardId);
             var link = String.Format("/Board?id={0}", BoardId);
             Response.Redirect(link);
-
-
         }
 
-        public async Task GetCardsByBoardIdAsync(int Id)
-        {
+        //public async Task GetCardsByBoardIdAsync(int Id)
+        //{
 
-            var cards = await api.GetCardsByBoardIdAsync(Id);
+            //var cards = await api;
 
-            foreach (var item in cards)
-            { 
+            //foreach (var item in cards)
+            //{ 
 
-                    switch(item.ColumnId)
-                    {
-                            case 1:
-                                columnOne.Add(item);
-                               break;
-                            case 2:
-                                 columnTwo.Add(item);
-                               break;
-                            case 3:
-                                 columnThree.Add(item);
-                               break;
-                            case 4:
-                                  columnFour.Add(item);
-                               break;
+            //        switch(item.ColumnId)
+            //        {
+            //                case 1:
+            //                    columnOne.Add(item);
+            //                   break;
+            //                case 2:
+            //                     columnTwo.Add(item);
+            //                   break;
+            //                case 3:
+            //                     columnThree.Add(item);
+            //                   break;
+            //                case 4:
+            //                      columnFour.Add(item);
+            //                   break;
 
-                    }
+            //        }
 
 
 
                 //CardList.Add(item);
-            }
-        }
+        //    }
+        //}
     }
 }
