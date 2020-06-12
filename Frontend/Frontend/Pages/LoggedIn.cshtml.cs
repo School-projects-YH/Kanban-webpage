@@ -13,15 +13,13 @@ namespace Frontend.Pages
 {
     public class LoggedInModel : PageModel
     {
-
-
         private readonly ILogger<LoggedInModel> _logger;
-        HttpClient client;
-
+        ApiHandler api;
         public LoggedInModel(ILogger<LoggedInModel> logger)
         {
             _logger = logger;
-            client = new HttpClient();
+            HttpClient client = new HttpClient();
+            api = new ApiHandler(client);
         }
 
         public int Id { get; set; }
@@ -31,12 +29,8 @@ namespace Frontend.Pages
             await GetBoardsFromDBAsync();
         }
 
-
-
         public async Task GetBoardsFromDBAsync()
         {
-            ApiHandler api = new ApiHandler(client);
-
             var boards = await api.GetBoardsAsync();
 
             foreach (var item in boards)
@@ -44,6 +38,20 @@ namespace Frontend.Pages
 
                 boardList.Add(item);
             }
+        }
+
+        public async Task Onpost()
+        {
+            var board = await CreateNewBoard();
+            var link = String.Format("/Board?id={0}", board.Id);
+            Response.Redirect(link);
+        }
+
+        public async Task<BoardDTO> CreateNewBoard()
+        {
+            var boardTitle = Request.Form["btitle"];
+            var board = await api.CreateBoard(boardTitle);
+            return board;
         }
     }
 }
