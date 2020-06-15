@@ -1,8 +1,13 @@
-﻿using Frontend.API.Model;
+﻿using Frontend.API.Model.DTO;
+using Frontend.API.Model;
+using Frontend.API;
+using System;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using System.Net.Http;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Frontend.Pages
 {
@@ -27,10 +32,29 @@ namespace Frontend.Pages
         {
         }
 
-        //public IActionResult Onpost()
-        //{
-        //  GetCardsByBoardIdAsync(1);
-        //return RedirectToPage("/Board");
-        //}
+        public async Task<IActionResult> OnPost()
+        {
+            var loginEmail = Request.Form["email"];
+            var loginPassword = Request.Form["pass"];
+            UserLoginDTO user = new UserLoginDTO();
+            user.UserEmail = loginEmail;
+            user.Password = loginPassword;
+
+
+            ApiHandler api = new ApiHandler(client);
+
+            int userId = await api.UserLoginRequestAsync(user);
+
+
+            if (userId != 0)
+            {
+                return RedirectToPage("LoggedIn", new { id = userId });
+            }
+            else
+            {
+                return new RedirectToPageResult("Index");
+            }
+
+        }
     }
 }

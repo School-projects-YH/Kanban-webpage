@@ -41,32 +41,20 @@ namespace Backend.Controllers
             return user;
         }
         [HttpPost]
-        public async Task<ActionResult<List<UserDTO>>> GetUser(User userClass)
+        public async Task<ActionResult<int>> GetUser(User userClass)
         {
-           
+
             //var user = await _context.User.Where(userEmail => User.UserEmail==email).And(password => User.Password).;
-                var userId =  (from user in _context.User
-                              where user.UserEmail==userClass.UserEmail && user.Password==userClass.Password
-                              select user.Id).SingleOrDefault();
-
-                var userBoards =  await (from boards in _context.UserBoards
-                              join user in _context.User on boards.UserId equals user.Id
-                              where user.Id == userId
-                              select new UserDTO {
-                              
-                                UserId = boards.UserId,
-                                BoardId= boards.Id
-
-                             }).ToListAsync();
+            var userId = await (from user in _context.User
+                                where user.UserEmail == userClass.UserEmail && user.Password == userClass.Password
+                                select user.Id).SingleOrDefaultAsync();
 
 
-                   
-
-            if (userBoards == null)
+            if (userId == 0)
             {
                 return NotFound();
             }
-            return userBoards;
+            return Ok(userId);
         }
         // PUT: api/User/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for

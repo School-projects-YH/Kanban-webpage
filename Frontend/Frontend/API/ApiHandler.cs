@@ -1,4 +1,5 @@
 using Frontend.API.Model;
+using Frontend.API.Model.DTO;
 using Frontend.API.Services;
 using System;
 using System.Net.Http;
@@ -16,7 +17,7 @@ namespace Frontend.API
         private bool _disposed = false;
         public CardService cardService { get; }
 
-        private string baseUrl = "https://localhost:9001/";
+        private string baseUrl = "http://localhost:9000/";
         private string uri = "";
         private string url
         { get { return baseUrl + uri; } }
@@ -36,7 +37,34 @@ namespace Frontend.API
 
         /* ----------------------------- End Constructor ---------------------------- */
 
+        public async Task<int> UserLoginRequestAsync(UserLoginDTO user)
+        {
+            string url = "http://localhost:9000/api/user";
+            var response = await _client.PostAsJsonAsync(url, user);
+
+            if (response.IsSuccessStatusCode)
+            {
+                var userId = await response.Content.ReadAsAsync<int>();
+                return userId;
+            }
+            return 0;
+        }
+
         /* ---------------------------------- Board --------------------------------- */
+
+        public async Task<BoardDTO[]> GetUserBoardsAsync(int id)
+        {
+            string url = "http://localhost:9000/api/board/" + id;
+            HttpResponseMessage response = await _client.GetAsync(url);
+
+            if (response.IsSuccessStatusCode)
+            {
+                var board = await response.Content.ReadAsAsync<BoardDTO[]>();
+                return board;
+            }
+            return null;
+        }
+
 
         public async Task<BoardDTO> CreateBoard(string title)
         {
@@ -63,7 +91,7 @@ namespace Frontend.API
             }
         }
 
-        public async Task<BoardDTO[]> GetBoardsAsync(string url = "https://localhost:9001/api/board")
+        public async Task<BoardDTO[]> GetBoardsAsync(string url = "http://localhost:9000/api/board")
         {
             HttpResponseMessage response = await _client.GetAsync(url);
 
@@ -81,14 +109,14 @@ namespace Frontend.API
 
         public async Task MoveLeftAsync(int id)
         {
-            string url = "https://localhost:9001/api/cardmovement/left";
+            string url = "http://localhost:9000/api/cardmovement/left";
 
             await _client.PutAsJsonAsync(url, id);
         }
 
         public async Task MoveRightAsync(int id)
         {
-            string url = "https://localhost:9001/api/cardmovement/right";
+            string url = "http://localhost:9000/api/cardmovement/right";
 
             await _client.PutAsJsonAsync(url, id);
         }

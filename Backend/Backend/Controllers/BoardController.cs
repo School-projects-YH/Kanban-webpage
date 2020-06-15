@@ -26,19 +26,63 @@ namespace Backend.Controllers
         {
             return await _context.Board.ToListAsync();
         }
+        /*
+                // GET: api/Board/5
+                [HttpGet("{id}")]
+                public async Task<ActionResult<Board>> GetBoard(int id)
+                {
+                    var board = await _context.Board.FindAsync(id);
 
-        // GET: api/Board/5
+                    if (board == null)
+                    {
+                        return NotFound();
+                    }
+
+                    return board;
+                }
+                */
+
         [HttpGet("{id}")]
-        public async Task<ActionResult<Board>> GetBoard(int id)
+        public async Task<ActionResult<List<Board>>> GetUserBoards(int id)
         {
-            var board = await _context.Board.FindAsync(id);
 
-            if (board == null)
+            var userBoards = await (from boards in _context.UserBoards
+                                    join user in _context.User on boards.UserId equals user.Id
+                                    where user.Id == id
+                                    select new UserBoards
+                                    {
+
+                                        UserId = boards.UserId,
+                                        BoardId = boards.Id
+
+                                    }).ToListAsync();
+            List<Board> boardsToSend = new List<Board>();
+
+
+
+            foreach (var userBoardsDTO in userBoards)
+            {
+                foreach (var Board in _context.Board)
+                {
+
+                    if (userBoardsDTO.BoardId == Board.Id)
+                    {
+                        boardsToSend.Add(Board);
+
+                    }
+                }
+
+            }
+
+            Console.WriteLine(boardsToSend.Count());
+            //var userBoards = _context.Board.Where(i => i.Id == id);
+
+
+            if (boardsToSend == null)
             {
                 return NotFound();
             }
-
-            return board;
+            return boardsToSend;
         }
 
         // PUT: api/Board/5

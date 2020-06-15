@@ -24,14 +24,16 @@ namespace Frontend.Pages
         public int Id { get; set; }
         public List<BoardDTO> boardList = new List<BoardDTO>();
 
-        public async Task OnGet()
+        public async Task OnGet(int id)
         {
-            await GetBoardsFromDBAsync();
+
+            await GetBoardsFromDBAsync(id);
         }
 
-        public async Task GetBoardsFromDBAsync()
+        public async Task GetBoardsFromDBAsync(int id)
         {
-            var boards = await api.GetBoardsAsync();
+            Console.WriteLine("UserID: " + id);
+            var boards = await api.GetUserBoardsAsync(id);
 
             foreach (var item in boards)
             {
