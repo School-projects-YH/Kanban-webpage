@@ -47,7 +47,7 @@ namespace Backend.Controllers
             {
                 return NotFound();
             }
-             return dtoQuery;
+             return Ok(dtoQuery);
         
         
         }

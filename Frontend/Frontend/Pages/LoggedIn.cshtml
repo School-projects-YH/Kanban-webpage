@@ -4,24 +4,20 @@
 }
 <link rel="stylesheet" type="text/css" href="~/css/index.css" />
 
-
 <div id="mainDiv">
-        @foreach (var item in @Model.boardList)
-        {
-            <div>
-           
-                <h5 onclick="location.href='/Board?id=@item.Id'">@item.Title</h5>
-            
-            </div>
-            
-        }
+    @foreach (var item in @Model.boardList)
+    {
+        <div>
 
+            <h5 onclick="location.href='/Board?id=@item.Id'">@item.Title</h5>
+        </div>
 
-        <div id="newBoardForm">
-            <form method="POST">
-                <input type="text" id="btitle" name="btitle" value="New board title">
-                <input type="submit" id="submit-btn" name="submit-btn" value="Create">
-            </form>
+    }
+
+    <div id="newBoardForm">
+        <form method="POST">
+            <input type="text" id="btitle" name="btitle" value="New board title">
+            <input type="submit" id="submit-btn" name="submit-btn" value="Create">
+        </form>
     </div>
-
 </div>

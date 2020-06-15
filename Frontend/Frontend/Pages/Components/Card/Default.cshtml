@@ -1,0 +1,27 @@
+﻿@using Frontend.API.Model
+@using Frontend.ViewComponents
+
+@model CardDTO
+
+<link rel="stylesheet" type="text/css" href="~/css/Card.css" />
+
+<div class="color-field"></div>
+
+<div class="card">
+    <div class="card-body">
+        <p>@Model.Info</p>
+    </div>
+    <div class="card-footer">
+        @if (Model.ColumnId != 1)
+        {
+            @await Component.InvokeAsync("MovementButton", Movement.Left)
+
+        }
+
+        @if (Model.ColumnId != 4)
+        {
+            @await Component.InvokeAsync("MovementButton", Movement.Right)
+        }
+
+    </div>
+</div>

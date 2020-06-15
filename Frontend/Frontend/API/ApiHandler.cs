@@ -1,29 +1,66 @@
+using Frontend.API.Model;
+using Frontend.API.Services;
 using System;
 using System.Net.Http;
 using System.Threading.Tasks;
-using System.Linq;
-using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
-using System.Text;
-using System.Net;
-using Frontend.DTO;
-using System.Collections.Specialized;
 
 namespace Frontend.API
 {
-
-    public interface IApiHandler
+    public partial class ApiHandler : IDisposable
     {
-    }
+        /* -------------------------------------------------------------------------- */
+        /*                                 API Handler                                */
+        /* -------------------------------------------------------------------------- */
 
+        private HttpClient _client;
+        private bool _disposed = false;
+        public CardService cardService { get; }
 
-    public class ApiHandler : IApiHandler
-    {
-        HttpClient _client;
+        private string baseUrl = "https://localhost:9001/";
+        private string uri = "";
+        private string url
+        { get { return baseUrl + uri; } }
 
-        public ApiHandler(HttpClient client)
+        /* ------------------------------- Constructor ------------------------------ */
+
+        public ApiHandler()
+        {
+            _client = new HttpClient();
+            cardService = new CardService(_client);
+        }
+
+        public ApiHandler(HttpClient client) : this()
         {
             _client = client;
+        }
+
+        /* ----------------------------- End Constructor ---------------------------- */
+
+        /* ---------------------------------- Board --------------------------------- */
+
+        public async Task<BoardDTO> CreateBoard(string title)
+        {
+            string url = "http://localhost:9000/api/board/";
+
+            var board = new BoardDTO()
+            {
+                Title = title
+            };
+
+            var response = await _client.PostAsJsonAsync(url, board);
+
+            if (response.IsSuccessStatusCode)
+            {
+                var uri = response.Headers.Location.ToString();
+                string id = uri.Substring(uri.LastIndexOf('/') + 1);
+                board.Id = Convert.ToInt32(id);
+
+                return board;
+            }
+            else
+            {
+                return null;
+            }
         }
 
         public async Task<BoardDTO[]> GetBoardsAsync(string url = "https://localhost:9001/api/board")
@@ -38,72 +75,45 @@ namespace Frontend.API
             return null;
         }
 
-        public async Task<CardDTO[]> GetCardsAsync(string url = "https://localhost:9001/api/dto")
-        {
-            HttpResponseMessage response = await _client.GetAsync(url);
+        /* -------------------------------- End Board ------------------------------- */
 
-            if (response.IsSuccessStatusCode)
-            {
-                var card = await response.Content.ReadAsAsync<CardDTO[]>();
-                return card;
-            }
-            return null;
-        }
-        public async Task<CardDTO[]> GetCardsByBoardIdAsync(int id)
-        {
-            string url = "https://localhost:9001/api/dto/" + id;
-            //string url ="http://localhost:9001/api/dto/1";
+        /* -------------------------------- MoveLogic ------------------------------- */
 
-            HttpResponseMessage response = await _client.GetAsync(url);
-
-            if (response.IsSuccessStatusCode)
-            {
-                var card = await response.Content.ReadAsAsync<CardDTO[]>();
-                return card;
-            }
-            return null;
-        }
-       
         public async Task MoveLeftAsync(int id)
         {
             string url = "https://localhost:9001/api/cardmovement/left";
-            
+
             await _client.PutAsJsonAsync(url, id);
         }
 
         public async Task MoveRightAsync(int id)
         {
             string url = "https://localhost:9001/api/cardmovement/right";
-            
+
             await _client.PutAsJsonAsync(url, id);
         }
 
-        public async Task<BoardDTO> CreateBoard(string title)
+        /* ------------------------------ End MoveLogic ----------------------------- */
+
+        /* --------------------------------- Dispose -------------------------------- */
+
+        public void Dispose() => Dispose(true);
+
+        public void Dispose(bool disposing)
         {
-            string url = "http://localhost:9000/api/board/";
-        
-            var board = new BoardDTO()
+            if (_disposed)
             {
-                Title = title
-            };
-            
-            var response = await _client.PostAsJsonAsync(url, board);
-
-            if (response.IsSuccessStatusCode)
-            {
-                var uri = response.Headers.Location.ToString();
-                string id = uri.Substring(uri.LastIndexOf('/') + 1);
-                board.Id = Convert.ToInt32(id);
-
-                return board;
+                return;
             }
-            else
+
+            if (disposing)
             {
-                return null; 
+                _client?.Dispose();
             }
-            
+            _disposed = true;
+            GC.SuppressFinalize(this);
         }
 
-
+        /* ------------------------------- End Dispose ------------------------------ */
     }
 }

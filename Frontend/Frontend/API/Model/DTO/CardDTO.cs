@@ -1,8 +1,7 @@
-namespace Frontend.DTO
+namespace Frontend.API.Model
 {
-    public class CardDTO
+    public class CardDTO : IEntity
     {
-        public int Id { get; set; }
         public string Title { get; set; }
         public int ColumnId { get; set; }
         public string Info { get; set; }

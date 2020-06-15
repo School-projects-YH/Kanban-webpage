@@ -1,20 +1,19 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http;
-using System.Threading.Tasks;
 using Frontend.API;
-using Frontend.DTO;
-using Microsoft.AspNetCore.Mvc;
+using Frontend.API.Model;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
+using System;
+using System.Collections.Generic;
+using System.Net.Http;
+using System.Threading.Tasks;
 
 namespace Frontend.Pages
 {
     public class LoggedInModel : PageModel
     {
         private readonly ILogger<LoggedInModel> _logger;
-        ApiHandler api;
+        private ApiHandler api;
+
         public LoggedInModel(ILogger<LoggedInModel> logger)
         {
             _logger = logger;
@@ -24,6 +23,7 @@ namespace Frontend.Pages
 
         public int Id { get; set; }
         public List<BoardDTO> boardList = new List<BoardDTO>();
+
         public async Task OnGet()
         {
             await GetBoardsFromDBAsync();
@@ -35,7 +35,6 @@ namespace Frontend.Pages
 
             foreach (var item in boards)
             {
-
                 boardList.Add(item);
             }
         }
