@@ -25,9 +25,11 @@ namespace Backend.Controllers
         // PUT: api/cardmovement/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
-        [HttpPut("left")]
-        public async Task<IActionResult> MoveLeft(Card card)
+        [HttpPut("{id}")]
+        public async Task<IActionResult> MoveLeft([FromBody] int id)
         {
+            var card = _context.Card.Find(id);
+
             if (card.ColumnId != 1)
             {
                 card.ColumnId = (card.ColumnId - 1);
@@ -57,9 +59,13 @@ namespace Backend.Controllers
             return NoContent();
         }
 
-        [HttpPut("right")]
-        public async Task<IActionResult> MoveRight(Card card)
+        [HttpPut]
+        [ActionName("right")]
+
+        public async Task<IActionResult> MoveRight([FromBody] int id)
         {
+            var card = _context.Card.Find(id);
+
             if (card.ColumnId != 4)
             {
                 card.ColumnId = (card.ColumnId + 1);
@@ -85,7 +91,6 @@ namespace Backend.Controllers
                     throw;
                 }
             }
-
             return NoContent();
         }
 

@@ -15,13 +15,14 @@ namespace Frontend.Pages
     {
         
         private readonly ILogger<BoardModel> _logger;
-        public int Id { get; set; }
-        HttpClient client;
+        public static int BoardId { get; set; }
+        ApiHandler api;
 
         public BoardModel(ILogger<BoardModel> logger)
         {
             _logger = logger;
-            client = new HttpClient();
+            var client = new HttpClient();
+            api = new ApiHandler(client);
         }
 
           public List<CardDTO> CardList = new List<CardDTO>();
@@ -32,14 +33,23 @@ namespace Frontend.Pages
 
         public async Task OnGet(int Id)
         {
-            Console.WriteLine(Id);
+            BoardId = Id;
             await GetCardsByBoardIdAsync(Id);
+
+        }
+        public async Task OnPost()
+        {
+            var cardIdValue = Request.Form["cardId"];
+            int cardId = Convert.ToInt32(cardIdValue);
+            await api.MoveLeftAsync(cardId);
+            var link = String.Format("/Board?id={0}", BoardId);
+            Response.Redirect(link);
+
 
         }
 
         public async Task GetCardsByBoardIdAsync(int Id)
         {
-            ApiHandler api = new ApiHandler(client);
 
             var cards = await api.GetCardsByBoardIdAsync(Id);
 

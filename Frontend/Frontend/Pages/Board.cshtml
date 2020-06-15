@@ -1,4 +1,4 @@
-@page
+@page "{id?}"
 @model Frontend.Pages.BoardModel
 @{
     ViewData["Title"] = "Boards";
@@ -20,13 +20,14 @@
            
             <div class="card">
                 <p>@item.Info</p>
+                <p>@item.Id</p>
                 <div>
-            <div class="leftButton">
-                
-                <button type="button" class="previous round">&#8249;</button>
-            </div>
+
             <div class="rightButton">
-                <button type="button" class="next round">&#8250;</button>
+                <form method="POST">
+                    <input type="hidden" value="@item.Id" id="cardId" name="cardId">
+                    <input type="submit" class="previous round">
+                </form>            
             </div>
             </div>
             </div>             
@@ -46,11 +47,14 @@
             <div>
             <div class="leftButton">
                 
+                <form method="POST">
+                    <input type="hidden" value="9" id="cardId" name="cardId"></input>
+                    <button type="button" class="previous round">&#8249;</button>
                 
-                <button type="button" class="previous round">&#8249;</button>
+                </form>
             </div>
             <div class="rightButton">
-                <button type="button" class="next round">&#8250;</button>
+                <button type="button" onclick="moveRight(@item.Id)" class="next round">&#8250;</button>
             </div>
             </div>
         </div>
@@ -70,10 +74,10 @@
             <div>
             <div class="leftButton">
                 
-                <button type="button" class="previous round">&#8249;</button>
+                <button type="button" onclick="moveLeft(@item.Id)" class="previous round">&#8249;</button>
             </div>
             <div class="rightButton">
-                <button type="button" class="next round">&#8250;</button>
+                <button type="button" onclick="moveRight(@item.Id)" class="next round">&#8250;</button>
             </div>
             </div>
         </div>
@@ -94,17 +98,26 @@
             <div>
             <div class="leftButton">
                 
-                <button type="button" class="previous round">&#8249;</button>
-            </div>
-            <div class="rightButton">
-                <button type="button" class="next round">&#8250;</button>
+                <button type="button" onclick="moveLeft(@item.Id)" class="previous round">&#8249;</button>
             </div>
             </div>
         </div>
     }
    </div>
-
+       
 </div>
 
 
+ <script>
+            function moveLeft(id)
+                {
+                    ApiHandler api = new ApiHandler(client);
+                    api.MoveLeftAsync(id);
 
+                }
+
+            function moveRight(id)
+                {
+                    console.log(id);
+                }
+</script>

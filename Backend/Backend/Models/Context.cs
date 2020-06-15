@@ -9,6 +9,8 @@ namespace Backend.Models
                 public DbSet<Board> Board {get; set;}
                 public DbSet<Card> Card {get; set;}
                 public DbSet<Column> Column {get; set;}
+                public DbSet<User> User {get; set;}
+                public DbSet<UserBoards> UserBoards {get; set;}
 
                 protected override void OnConfiguring(DbContextOptionsBuilder options)
                 {
