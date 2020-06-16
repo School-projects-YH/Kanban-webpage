@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Frontend.API;
 
 namespace Frontend.API.Model
 {

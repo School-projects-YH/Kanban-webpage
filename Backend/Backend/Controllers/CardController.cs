@@ -80,6 +80,7 @@ namespace Backend.Controllers
         [HttpPost]
         public async Task<ActionResult<Card>> PostCard(Card card)
         {
+            card.BoardId = 1;
             _context.Card.Add(card);
             await _context.SaveChangesAsync();
 

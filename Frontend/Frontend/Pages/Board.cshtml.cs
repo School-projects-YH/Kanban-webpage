@@ -35,23 +35,49 @@ namespace Frontend.Pages
             board = new Board(Id);
             await GetCardsByBoardIdAsync(Id);
 
-            var cardIdValue = Request.Form["cardId"];
-            int cardId = Convert.ToInt32(cardIdValue);
 
-            var button = Request.Form["button"];
-            if (button == "left") {
-                await api.MoveLeftAsync(cardId);
-            } else if (button == "right"){
-
-                await api.MoveRightAsync(cardId);
-            } else if (button == "delete")
+            int cardIdValue = Convert.ToInt32(Request.Form["cardId"]);
+            if (cardIdValue != 0)
             {
+                int cardId = Convert.ToInt32(cardIdValue);
+
+                var button = Request.Form["button"];
+                if (button == "left")
+                {
+                    await api.MoveLeftAsync(cardId);
+                }
+                else if (button == "right")
+                {
+                    await api.MoveRightAsync(cardId);
+                }
+                else if (button == "delete")
+                {
                 Console.WriteLine("tar bort kort");
                 await api.DeleteCardAsync(cardId);
-            }
+                }
 
+            }
+            else
+            {
+                // Samla data
+                string info = Request.Form["card-info"];
+                // Skapa card objekt
+                var newCard = new CardDTO
+                {
+                    
+                    ColumnId = 1,
+                    Info = info
+                };
+                // Skicka till servern
+                using (var api = new ApiHandler())
+                {
+                    await api.cardService.Create(newCard);
+                }
+
+            }
             var link = String.Format("/Board?id={0}", BoardId);
             Response.Redirect(link);
+
         }
 
         public async Task GetCardsByBoardIdAsync(int Id)

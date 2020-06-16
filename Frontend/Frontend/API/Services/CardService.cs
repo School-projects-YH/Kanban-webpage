@@ -62,8 +62,15 @@ namespace Frontend.API.Services
             using (_httpClient)
             {
                 var response = await _httpClient.PostAsJsonAsync(url, cardDTO);
-                var cardId = Convert.ToInt32(response.Headers.Location);
-                return cardId;
+                if(response.IsSuccessStatusCode)
+                {
+
+                    var uri = response.Headers.Location.ToString();
+                    string stringId = uri.Substring(uri.LastIndexOf('/') + 1);
+                    var id = Convert.ToInt32(stringId);
+                    return id;
+                }
+                throw new Exception("Create Card not succesfull");
             }
         }
 
