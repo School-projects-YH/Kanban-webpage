@@ -18,7 +18,7 @@ namespace Frontend.API
         public CardService cardService { get; }
         public ColumnService columnService { get; }
         public BoardService boardService { get; }
-        public UserSerivice userService { get; }
+        public UserService userService { get; }
 
 
         //private string baseUrl = "http://localhost:9000/"; 
@@ -38,7 +38,7 @@ namespace Frontend.API
             cardService = new CardService(_client);
             columnService = new ColumnService(_client);
             boardService = new BoardService(_client);
-            userService = new UserSerivice(_client);
+            userService = new UserService(_client);
         }
 
         public ApiHandler(HttpClient client) : this()
