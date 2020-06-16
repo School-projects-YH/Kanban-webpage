@@ -104,7 +104,30 @@ namespace Frontend.API
         }
 
         /* -------------------------------- End Board ------------------------------- */
+        /*----------------------------------Create User-------------------------------*/
+        public async Task <UserLoginDTO> CreateUser(UserLoginDTO user)
+        {
+                 string url = "http://localhost:9000/api/user/newUser";
 
+          
+            
+            var response = await _client.PostAsJsonAsync(url, user);
+
+            if (response.IsSuccessStatusCode)
+            {
+                var uri = response.Headers.Location.ToString();
+                string id = uri.Substring(uri.LastIndexOf('/') + 1);
+                user.Id = Convert.ToInt32(id);
+
+                return user;
+            }
+            else
+            {
+                return null;
+            }
+
+        } 
+        /*-----------------------------------End Create User--------------------------*/
         /* -------------------------------- MoveLogic ------------------------------- */
 
         public async Task MoveLeftAsync(int id)

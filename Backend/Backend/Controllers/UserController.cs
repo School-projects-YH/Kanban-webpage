@@ -91,7 +91,7 @@ namespace Backend.Controllers
         // POST: api/User
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
-        /*[HttpPost]
+        [HttpPost("newUser")]
         public async Task<ActionResult<User>> PostUser(User user)
         {
             _context.User.Add(user);
@@ -99,7 +99,7 @@ namespace Backend.Controllers
 
             return CreatedAtAction("GetUser", new { id = user.Id }, user);
         }
-*/
+
         // DELETE: api/User/5
         [HttpDelete("{id}")]
         public async Task<ActionResult<User>> DeleteUser(int id)
