@@ -21,7 +21,18 @@
 .rightButton {
   width: 15%;
   float: right;
+  margin-top:10px;
 }
+.deleteButton {
+  width: 15%;
+  float: right;
+  margin-top:10px;
+}
+
+/* .deleteButton rightButton  {
+
+  background-color: red;
+} */
 
 button {
   background: rgba(0, 0, 0, 0);
@@ -36,6 +47,7 @@ button:hover {
   background-color: #ddd;
   color: black;
 }
+
 
 .previous {
   color: black;

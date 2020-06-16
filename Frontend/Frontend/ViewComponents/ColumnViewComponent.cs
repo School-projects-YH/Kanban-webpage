@@ -9,10 +9,9 @@ namespace Frontend.ViewComponents
     {
         public async Task<IViewComponentResult> InvokeAsync(Column column)
         {
-            using (var api = new ApiHandler())
-            {
+           
                 return View(column);
-            }
+            
         }
     }
 }

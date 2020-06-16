@@ -1,0 +1,12 @@
+@using Frontend.API.Model
+@model CardDTO
+
+<link rel="stylesheet" type="text/css" href="~/css/Board.css" />
+
+<div class ="rightButton">
+    <form method="POST">
+        <input type="hidden" value="@Model.Id" id="cardId" name="cardId">
+        <input type="hidden" value="delete" id="button" name="button">
+        <button type="submit" class="round">X</button>
+    </form>
+</div>
