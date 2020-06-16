@@ -46,11 +46,16 @@ namespace Frontend.Pages
                 {
                     await api.MoveLeftAsync(cardId);
                 }
-                else
+                else if (button == "right")
                 {
-
                     await api.MoveRightAsync(cardId);
                 }
+                else if (button == "delete")
+                {
+                Console.WriteLine("tar bort kort");
+                await api.DeleteCardAsync(cardId);
+                }
+
             }
             else
             {

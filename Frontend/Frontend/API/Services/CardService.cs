@@ -9,7 +9,8 @@ namespace Frontend.API.Services
     public class CardService : IService<CardDTO>
     {
         private HttpClient _httpClient;
-        private string baseUrl = "http://localhost:9000/";
+        //private string baseUrl = "http://localhost:9000/";
+        private string baseUrl = "https://localhost:9001/";
         private string uri = "api/card/";
         private string url
         { get { return baseUrl + uri; } }

@@ -18,9 +18,9 @@ namespace Frontend.API
         private bool _disposed = false;
         public CardService cardService { get; }
 
-        private string baseUrl = "http://localhost:9000/";
+        //private string baseUrl = "http://localhost:9000/";
 
-        //private string baseUrl = "https://localhost:9001/";
+        private string baseUrl = "https://localhost:9001/";
         private string uri = "";
         private string url
         { get { return baseUrl + uri; } }
@@ -161,6 +161,20 @@ namespace Frontend.API
         }
 
         /* ------------------------------ End MoveLogic ----------------------------- */
+        /* -------------------------------- DeleteCard ------------------------------- */
+
+        public async Task DeleteCardAsync(int id)
+        {
+            
+             string url = baseUrl+"api/Card/" + id ;
+
+            var client = new HttpClient();
+
+            await client.DeleteAsync(url);
+            
+        }
+
+        /* ------------------------------ End DeleteCard ----------------------------- */
 
         /* --------------------------------- Dispose -------------------------------- */
 
