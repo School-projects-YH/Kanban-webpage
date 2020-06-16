@@ -64,7 +64,7 @@ namespace Frontend.Pages
                 // Skapa card objekt
                 var newCard = new CardDTO
                 {
-                    
+                    BoardId = Id,
                     ColumnId = 1,
                     Info = info
                 };

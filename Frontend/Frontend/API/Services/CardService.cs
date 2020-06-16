@@ -64,7 +64,6 @@ namespace Frontend.API.Services
                 var response = await _httpClient.PostAsJsonAsync(url, cardDTO);
                 if(response.IsSuccessStatusCode)
                 {
-
                     var uri = response.Headers.Location.ToString();
                     string stringId = uri.Substring(uri.LastIndexOf('/') + 1);
                     var id = Convert.ToInt32(stringId);

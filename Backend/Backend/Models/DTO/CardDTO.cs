@@ -6,5 +6,7 @@ namespace Backend
         public string Title { get; set; }
         public int ColumnId { get; set; }
         public string Info { get; set; }
+        public int BoardId { get; set; }
+
     }
 }

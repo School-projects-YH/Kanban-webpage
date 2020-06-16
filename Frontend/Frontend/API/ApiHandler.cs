@@ -75,6 +75,7 @@ namespace Frontend.API
 
             var board = new BoardDTO()
             {
+                 
                 Title = title,
                 UserId = userId
                 
