@@ -48,14 +48,14 @@ namespace Frontend.Pages
                 {
                     using (var api = new ApiHandler())
                     {
-                        await api.MoveLeftAsync(cardId);
+                        await api.moveLogicService.MoveLeftAsync(cardId);
                     }
                 }
                 else if (button == "right")
                 {
                     using (var api = new ApiHandler())
                     {
-                        await api.MoveRightAsync(cardId);
+                        await api.moveLogicService.MoveRightAsync(cardId);
                     }
                 }
                 else if (button == "delete")

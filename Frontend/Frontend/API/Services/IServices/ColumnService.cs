@@ -10,23 +10,23 @@ namespace Frontend.API.Services
 {
     public class ColumnService : IService<ColumnDTO>
     {
-        private HttpClient _httpClient;
         //private string baseUrl = "http://localhost:9000/";
-        private string baseUrl = "https://localhost:9001/";
+        private string baseUrl { get; }
+
         private string uri = "api/column/";
         private string url
         { get { return baseUrl + uri; } }
 
-        public ColumnService(HttpClient httpClient)
+        public ColumnService(string baseUrl)
         {
-            _httpClient = httpClient;
+            this.baseUrl = baseUrl;
         }
 
         public async Task<IEnumerable<ColumnDTO>> GetAll()
         {
-            using (_httpClient)
+            using (var client = new HttpClient())
             {
-                var response = await _httpClient.GetAsync(url);
+                var response = await client.GetAsync(url);
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -42,9 +42,9 @@ namespace Frontend.API.Services
 
         public async Task<IEnumerable<ColumnDTO>> GetColumnsByBoardIdAsync(int id)
         {
-            using(_httpClient)
+            using(var client = new HttpClient())
             {
-                var response = await _httpClient.GetAsync(url + "Board/" + 1);
+                var response = await client.GetAsync(url + "Board/" + 1);
                 if (response.IsSuccessStatusCode)
                 {
                     Console.WriteLine(await response.Content.ReadAsStringAsync());
@@ -58,9 +58,9 @@ namespace Frontend.API.Services
         // Create
         public async Task<int> Create(ColumnDTO columnDTO)
         {
-            using (_httpClient)
+            using (var client = new HttpClient())
             {
-                var response = await _httpClient.PostAsJsonAsync(url, columnDTO);
+                var response = await client.PostAsJsonAsync(url, columnDTO);
                 if (response.IsSuccessStatusCode)
                 {
                     var uri = response.Headers.Location.ToString();
@@ -76,18 +76,18 @@ namespace Frontend.API.Services
 
         public async Task Delete(ColumnDTO columnDTO)
         {
-            using (_httpClient)
+            using (var client = new HttpClient())
             {
-                var response = await _httpClient.DeleteAsync(url + columnDTO.Id);
+                var response = await client.DeleteAsync(url + columnDTO.Id);
             }
         }
 
         // Update
         public async Task<ColumnDTO> Update(ColumnDTO columnDTO)
         {
-            using (_httpClient)
+            using (var client = new HttpClient())
             {
-                var response = await _httpClient.PutAsJsonAsync(url + columnDTO.Id, columnDTO);
+                var response = await client.PutAsJsonAsync(url + columnDTO.Id, columnDTO);
                 var column = await response.Content.ReadAsAsync<ColumnDTO>();
                 return column;
             }
@@ -97,9 +97,9 @@ namespace Frontend.API.Services
 
         public async Task<ColumnDTO> FindById(int id)
         {
-            using (_httpClient)
+            using (var client = new HttpClient())
             {
-                var response = await _httpClient.GetAsync(url + id);
+                var response = await client.GetAsync(url + id);
                 var column = await response.Content.ReadAsAsync<ColumnDTO>();
                 return column;
             }

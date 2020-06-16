@@ -11,14 +11,15 @@ namespace Frontend.API.Services
     {
 
         private HttpClient _httpClient;
-        private string baseUrl = "http://localhost:9000/";
+        private string baseUrl { get; }
+
         private string uri = "api/User/";
         private string url
         { get { return baseUrl + uri; } }
 
-        public UserService(HttpClient httpClient)
+        public UserService(string baseUrl)
         {
-            _httpClient = httpClient;
+            this.baseUrl = baseUrl;
         }
 
         public async Task<IEnumerable<UserLoginDTO>> GetAll()

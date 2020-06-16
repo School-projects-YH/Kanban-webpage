@@ -9,22 +9,21 @@ namespace Frontend.API.Services
 {
     public class BoardService : IService<BoardDTO>
     {
-        private HttpClient _httpClient;
-        private string baseUrl = "http://localhost:9000/";
+        private string baseUrl { get; }
         private string uri = "api/board/";
         private string url
         { get { return baseUrl + uri; } }
 
-        public BoardService(HttpClient httpClient)
+        public BoardService(string baseUrl)
         {
-            _httpClient = httpClient;
+            this.baseUrl = baseUrl;
         }
 
         public async Task<IEnumerable<BoardDTO>> GetAll()
         {
-            using (_httpClient)
+            using (var client = new HttpClient())
             {
-                var response = await _httpClient.GetAsync(url);
+                var response = await client.GetAsync(url);
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -39,9 +38,9 @@ namespace Frontend.API.Services
         }
         public async Task<IEnumerable<BoardDTO>> GetByUserIdAsync(int userId)
         {
-            using (_httpClient)
+            using (var client = new HttpClient())
             {
-                HttpResponseMessage response = await _httpClient.GetAsync(url + userId);
+                HttpResponseMessage response = await client.GetAsync(url + userId);
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -54,9 +53,9 @@ namespace Frontend.API.Services
 
         public async Task<IEnumerable<BoardDTO>> GetByBoardIdAsync(int boardId)
         {
-            using (_httpClient)
+            using (var client = new HttpClient())
             {
-                HttpResponseMessage response = await _httpClient.GetAsync(url + boardId);
+                HttpResponseMessage response = await client.GetAsync(url + boardId);
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -70,9 +69,9 @@ namespace Frontend.API.Services
         // Create
         public async Task<int> Create(BoardDTO boardDTO)
         {
-            using (var _httpClient = new HttpClient())
+            using (var client = new HttpClient())
             {
-                var response = await _httpClient.PostAsJsonAsync(url, boardDTO);
+                var response = await client.PostAsJsonAsync(url, boardDTO);
                 if (response.IsSuccessStatusCode)
                 {
                     var uri = response.Headers.Location.ToString();
@@ -89,18 +88,18 @@ namespace Frontend.API.Services
 
         public async Task Delete(BoardDTO boardDTO)
         {
-            using (_httpClient)
+            using (var client = new HttpClient())
             {
-                var response = await _httpClient.DeleteAsync(url + boardDTO.Id);
+                var response = await client.DeleteAsync(url + boardDTO.Id);
             }
         }
 
         // Update
         public async Task<BoardDTO> Update(BoardDTO boardDTO)
         {
-            using (_httpClient)
+            using (var client = new HttpClient())
             {
-                var response = await _httpClient.PutAsJsonAsync(url + boardDTO.Id, boardDTO);
+                var response = await client.PutAsJsonAsync(url + boardDTO.Id, boardDTO);
                 var card = await response.Content.ReadAsAsync<BoardDTO>();
                 return card;
             }
@@ -110,9 +109,9 @@ namespace Frontend.API.Services
 
         public async Task<BoardDTO> FindById(int id)
         {
-            using (_httpClient)
+            using (var client = new HttpClient())
             {
-                var response = await _httpClient.GetAsync(url + id);
+                var response = await client.GetAsync(url + id);
                 var card = await response.Content.ReadAsAsync<BoardDTO>();
                 return card;
             }

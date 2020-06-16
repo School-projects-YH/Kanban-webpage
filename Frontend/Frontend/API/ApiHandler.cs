@@ -1,8 +1,7 @@
-using Frontend.API.Model;
 using Frontend.API.Services;
 using System; 
 using System.Net.Http;
-using System.Threading.Tasks; 
+using System.Threading.Tasks;
 
 
 namespace Frontend.API
@@ -19,11 +18,11 @@ namespace Frontend.API
         public ColumnService columnService { get; }
         public BoardService boardService { get; }
         public UserService userService { get; }
+        public MoveLogicService moveLogicService { get; }
 
-
-        //private string baseUrl = "http://localhost:9000/"; 
-
-        private string baseUrl = "https://localhost:9001/";
+        // Ändra denna när ni vill byta port! (https/http)
+        private string baseUrl = PortUrl.https;
+        
         private string uri = "";
         private string url
         { get { return baseUrl + uri; } }
@@ -35,10 +34,11 @@ namespace Frontend.API
             _client = new HttpClient();
             
             // Connect to services
-            cardService = new CardService(_client);
-            columnService = new ColumnService(_client);
-            boardService = new BoardService(_client);
-            userService = new UserService(_client);
+            cardService = new CardService(baseUrl);
+            columnService = new ColumnService(baseUrl);
+            boardService = new BoardService(baseUrl);
+            userService = new UserService(baseUrl);
+            moveLogicService = new MoveLogicService(baseUrl);
         }
 
         public ApiHandler(HttpClient client) : this()
@@ -48,39 +48,12 @@ namespace Frontend.API
 
         /* ----------------------------- End Constructor ---------------------------- */
 
-        /* -------------------------------- MoveLogic ------------------------------- */
-
-        public async Task MoveLeftAsync(int id)
-        {
-            
-             string url = baseUrl + "api/cardmovement/left/" + id ;
-
-            var client = new HttpClient();
-
-
-            await client.PutAsJsonAsync(url, id);
-        }
-
-        public async Task MoveRightAsync(int id)
-        {
-            
-
-            string url = baseUrl + "api/cardmovement/right/" + id ;
-
-            var client = new HttpClient();
-
-
-            await client.PutAsJsonAsync(url, id);
-           
-        }
-
-        /* ------------------------------ End MoveLogic ----------------------------- */
 
         /* --------------------------------- Dispose -------------------------------- */
 
         public void Dispose() => Dispose(true);
 
-        public void Dispose(bool disposing)
+        protected void Dispose(bool disposing)
         {
             if (_disposed)
             {
@@ -93,6 +66,7 @@ namespace Frontend.API
             }
             _disposed = true;
             GC.SuppressFinalize(this);
+            return;
         }
 
         /* ------------------------------- End Dispose ------------------------------ */
