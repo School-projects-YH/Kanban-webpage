@@ -405,3 +405,5 @@ ASALocalRun/
 # Local History for Visual Studio
 .localhistory/
 Backend/Backend/Kanban.db
+Backend/Backend/Kanban.db-shm
+Backend/Backend/Kanban.db-wal
