@@ -60,8 +60,6 @@ namespace Backend.Controllers
         }
 
         [HttpPut("right/{id}")]
-        //[ActionName("right")]
-
         public async Task<IActionResult> MoveRight( int id)
         {
             var card = _context.Card.Find(id);
