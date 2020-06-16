@@ -19,6 +19,8 @@ namespace Frontend.API
         public CardService cardService { get; }
 
         private string baseUrl = "http://localhost:9000/";
+
+        //private string baseUrl = "https://localhost:9001/";
         private string uri = "";
         private string url
         { get { return baseUrl + uri; } }
@@ -40,7 +42,7 @@ namespace Frontend.API
 
         public async Task<int> UserLoginRequestAsync(UserLoginDTO user)
         {
-            string url = "http://localhost:9000/api/user";
+            string url = baseUrl+"api/user";
             var response = await _client.PostAsJsonAsync(url, user);
 
             if (response.IsSuccessStatusCode)
@@ -55,7 +57,7 @@ namespace Frontend.API
 
         public async Task<BoardDTO[]> GetUserBoardsAsync(int id)
         {
-            string url = "http://localhost:9000/api/board/" + id;
+            string url = baseUrl+"api/board/" + id;
             HttpResponseMessage response = await _client.GetAsync(url);
 
             if (response.IsSuccessStatusCode)
@@ -69,7 +71,7 @@ namespace Frontend.API
 
         public async Task<BoardDTO> CreateBoard(string title)
         {
-            string url = "http://localhost:9000/api/board/";
+            string url = baseUrl+"api/board/";
 
             var board = new BoardDTO()
             {
@@ -92,8 +94,9 @@ namespace Frontend.API
             }
         }
 
-        public async Task<BoardDTO[]> GetBoardsAsync(string url = "http://localhost:9000/api/board")
+        public async Task<BoardDTO[]> GetBoardsAsync()
         {
+            string url = baseUrl+"api/board";
             HttpResponseMessage response = await _client.GetAsync(url);
 
             if (response.IsSuccessStatusCode)
@@ -108,7 +111,7 @@ namespace Frontend.API
         /*----------------------------------Create User-------------------------------*/
         public async Task <UserLoginDTO> CreateUser(UserLoginDTO user)
         {
-                 string url = "http://localhost:9000/api/user/newUser";
+                 string url = baseUrl+"api/user/newUser";
 
           
             
@@ -133,8 +136,8 @@ namespace Frontend.API
 
         public async Task MoveLeftAsync(int id)
         {
-
-            string url = "https://localhost:9001/api/cardmovement/left/" + id ;
+            
+             string url = baseUrl+"api/cardmovement/left/" + id ;
 
             var client = new HttpClient();
 
@@ -144,8 +147,9 @@ namespace Frontend.API
 
         public async Task MoveRightAsync(int id)
         {
+            
 
-            string url = "https://localhost:9001/api/cardmovement/right/" + id ;
+            string url = baseUrl+"api/cardmovement/right/" + id ;
 
             var client = new HttpClient();
 
