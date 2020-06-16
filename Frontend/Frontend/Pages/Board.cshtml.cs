@@ -30,13 +30,39 @@ namespace Frontend.Pages
             await GetCardsByBoardIdAsync(Id);
         }
 
-        public async Task OnPost()
+        public async Task OnPost(int Id)
         {
-            var cardIdValue = Request.Form["cardId"];
-            int cardId = Convert.ToInt32(cardIdValue);
-            await api.MoveLeftAsync(cardId);
+            board = new Board(Id);
+            await GetCardsByBoardIdAsync(Id);
+
+            int cardIdValue = Convert.ToInt32(Request.Form["cardId"]);
+            if (cardIdValue != 0)
+            {
+                int cardId = Convert.ToInt32(cardIdValue);
+                await api.MoveLeftAsync(cardId);
+                
+            }
+            else
+            {
+                // Samla data
+                string info = Request.Form["card-info"];
+                // Skapa card objekt
+                var newCard = new CardDTO
+                {
+                    
+                    ColumnId = 1,
+                    Info = info
+                };
+                // Skicka till servern
+                using (var api = new ApiHandler())
+                {
+                    await api.cardService.Create(newCard);
+                }
+
+            }
             var link = String.Format("/Board?id={0}", BoardId);
             Response.Redirect(link);
+
         }
 
         public async Task GetCardsByBoardIdAsync(int Id)
