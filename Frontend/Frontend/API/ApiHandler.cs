@@ -149,7 +149,7 @@ namespace Frontend.API
         {
             
 
-            string url = baseUrl+"api/cardmovement/left/" + id ;
+            string url = baseUrl+"api/cardmovement/right/" + id ;
 
             var client = new HttpClient();
 
