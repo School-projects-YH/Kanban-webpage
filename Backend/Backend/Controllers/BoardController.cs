@@ -51,30 +51,35 @@ namespace Backend.Controllers
                                     where user.Id == id
                                     select new UserBoards
                                     {
-
                                         UserId = boards.UserId,
-                                        BoardId = boards.Id
+                                        BoardId = boards.BoardId
 
                                     }).ToListAsync();
             List<Board> boardsToSend = new List<Board>();
 
-
-
-            foreach (var userBoardsDTO in userBoards)
+            foreach(var item in userBoards)
             {
-                foreach (var Board in _context.Board)
-                {
-
-                    if (userBoardsDTO.BoardId == Board.Id)
-                    {
-                        boardsToSend.Add(Board);
-
-                    }
-                }
-
+                var board = _context.Board.Find(item.BoardId);
+                boardsToSend.Add(board);
             }
 
-            Console.WriteLine(boardsToSend.Count());
+            
+
+            //foreach (var userBoardsDTO in userBoards)
+            //{
+            //    foreach (var Board in _context.Board)
+            //    {
+
+            //        if (userBoardsDTO.UserId == id)
+            //        {
+            //            boardsToSend.Add(Board);
+
+            //        }
+            //    }
+
+            //}
+
+            Console.WriteLine("Number of boards: "  + boardsToSend.Count());
             //var userBoards = _context.Board.Where(i => i.Id == id);
 
 
@@ -82,7 +87,8 @@ namespace Backend.Controllers
             {
                 return NotFound();
             }
-            return boardsToSend;
+
+            return Ok(boardsToSend);
         }
 
         // PUT: api/Board/5
@@ -121,9 +127,23 @@ namespace Backend.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPost]
-        public async Task<ActionResult<Board>> PostBoard(Board board)
+        public async Task<ActionResult<Board>> PostBoard(BoardDTO boardDTO)
         {
+            var board = new Board()
+            {
+                Id = boardDTO.Id,
+                Title = boardDTO.Title
+            };
             _context.Board.Add(board);
+            await _context.SaveChangesAsync();
+
+            var userBoard = new UserBoards()
+            {
+                BoardId = board.Id,
+                UserId = boardDTO.UserId
+            };
+            _context.UserBoards.Add(userBoard);
+
             await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetBoard", new { id = board.Id }, board);
