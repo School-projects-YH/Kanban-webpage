@@ -39,7 +39,30 @@ namespace Backend.Controllers
                 return NotFound();
             }
 
-            return column;
+            return Ok(column);
+        }
+
+        // GET: api/Column/Board/5
+        [HttpGet("Board/{id}")]
+        public async Task<ActionResult<List<CardDTO>>> GetColumnByBoardId(int id)
+        {
+
+            var dtoQuery = await (from column in _context.Column
+                                  where column.BoardId == id
+                                  select new Column
+                                  {
+                                      Id = column.Id,
+                                      Title = column.Title
+
+                                  }).ToListAsync();
+
+            if (dtoQuery == null)
+            {
+                return NotFound();
+            }
+            return Ok(dtoQuery);
+
+
         }
 
         // PUT: api/Column/5

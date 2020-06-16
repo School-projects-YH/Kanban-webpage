@@ -17,6 +17,8 @@ namespace Frontend.API
         private HttpClient _client;
         private bool _disposed = false;
         public CardService cardService { get; }
+        public ColumnService columnService { get; }
+
 
         //private string baseUrl = "http://localhost:9000/"; 
 
@@ -30,7 +32,10 @@ namespace Frontend.API
         public ApiHandler()
         {
             _client = new HttpClient();
+            
+            // Connect to services
             cardService = new CardService(_client);
+            columnService = new ColumnService(_client);
         }
 
         public ApiHandler(HttpClient client) : this()
