@@ -5,6 +5,7 @@ using System;
 using System.Net.Http;
 using System.Threading.Tasks;
 
+
 namespace Frontend.API
 {
     public partial class ApiHandler : IDisposable
@@ -132,16 +133,25 @@ namespace Frontend.API
 
         public async Task MoveLeftAsync(int id)
         {
-            string url = "http://localhost:9000/api/cardmovement/left";
 
-            await _client.PutAsJsonAsync(url, id);
+            string url = "https://localhost:9001/api/cardmovement/left/" + id ;
+
+            var client = new HttpClient();
+
+
+            await client.PutAsJsonAsync(url, id);
         }
 
         public async Task MoveRightAsync(int id)
         {
-            string url = "http://localhost:9000/api/cardmovement/right";
 
-            await _client.PutAsJsonAsync(url, id);
+            string url = "https://localhost:9001/api/cardmovement/right/" + id ;
+
+            var client = new HttpClient();
+
+
+            await client.PutAsJsonAsync(url, id);
+           
         }
 
         /* ------------------------------ End MoveLogic ----------------------------- */

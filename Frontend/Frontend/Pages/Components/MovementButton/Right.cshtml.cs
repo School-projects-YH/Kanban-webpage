@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -7,16 +7,16 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace Frontend
 {
-    public class Default1Model : PageModel
+    public class Default2Model : PageModel
     {
         public void OnGet()
         {
 
         }
 
-        public void OnPost(int Id)
+        public void OnPost()
         {
-            Console.WriteLine("Hej Left id: " + Id );
+            Console.WriteLine("Hej Right");
         }
     }
 }
