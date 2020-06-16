@@ -6,9 +6,11 @@
 
 <link rel="stylesheet" type="text/css" href="~/css/Board.css" />
 
+@await Html.PartialAsync("~/Pages/PartialPage/_CreateCard.cshtml")
+
 <div id="mainDiv">
     @foreach (var item in Model.board.columns)
     {
-        @await Component.InvokeAsync("Column", item)
+@await Component.InvokeAsync("Column", item)
     }
-</div>
+</div
