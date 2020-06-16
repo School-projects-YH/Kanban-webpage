@@ -30,11 +30,22 @@ namespace Frontend.Pages
             await GetCardsByBoardIdAsync(Id);
         }
 
-        public async Task OnPost()
+        public async Task OnPost(int Id)
         {
+            board = new Board(Id);
+            await GetCardsByBoardIdAsync(Id);
+
             var cardIdValue = Request.Form["cardId"];
             int cardId = Convert.ToInt32(cardIdValue);
-            await api.MoveLeftAsync(cardId);
+
+            var button = Request.Form["button"];
+            if (button == "left") {
+                await api.MoveLeftAsync(cardId);
+            } else {
+
+                await api.MoveRightAsync(cardId);
+            }
+
             var link = String.Format("/Board?id={0}", BoardId);
             Response.Redirect(link);
         }
