@@ -32,7 +32,7 @@ namespace Frontend.Pages
 
         public async Task GetBoardsFromDBAsync(int id)
         {
-            var boards = await api.GetUserBoardsAsync(id);
+            var boards = await api.boardService.GetByUserIdAsync(id);
 
             foreach (var item in boards)
             {
@@ -44,19 +44,24 @@ namespace Frontend.Pages
         {
             await GetBoardsFromDBAsync(id);
 
-            var board = await CreateNewBoard();
-            var link = String.Format("/Board?id={0}", board.Id);
+            var boardId = await CreateNewBoard();
+            var link = String.Format("/Board?id={0}", boardId);
             Response.Redirect(link);
         }
 
-        public async Task<BoardDTO> CreateNewBoard()
+        public async Task<int> CreateNewBoard()
         {
             var userIdrequest = Request.Form["userId"];
             var userId = Convert.ToInt32(userIdrequest);
             var boardTitle = Request.Form["btitle"];
 
+            var createdBoard = new BoardDTO
+            {
+                Title = boardTitle,
+                UserId = userId
+            };
 
-            var board = await api.CreateBoard(boardTitle, userId);
+            var board = await api.boardService.Create(createdBoard);
             return board;
         }
     }

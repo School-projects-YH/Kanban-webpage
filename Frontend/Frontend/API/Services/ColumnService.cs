@@ -44,7 +44,7 @@ namespace Frontend.API.Services
         {
             using(_httpClient)
             {
-                var response = await _httpClient.GetAsync(url + "Board/" + id);
+                var response = await _httpClient.GetAsync(url + "Board/" + 1);
                 if (response.IsSuccessStatusCode)
                 {
                     Console.WriteLine(await response.Content.ReadAsStringAsync());

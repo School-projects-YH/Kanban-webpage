@@ -14,9 +14,11 @@ namespace Frontend.Pages
         private readonly ILogger<BoardModel> _logger;
         public static int BoardId { get; set; }
         public Board board { get; set; }
+        public ICollection<CardDTO> cardDTOs;
 
         public BoardModel(ILogger<BoardModel> logger)
         {
+            
             _logger = logger;
         }
 
@@ -61,7 +63,7 @@ namespace Frontend.Pages
 
                     using (var api = new ApiHandler())
                     {
-                        await api.DeleteCardAsync(cardId);
+                        await api.cardService.Delete(cardId);
                     }
                 }
             }
@@ -116,7 +118,7 @@ namespace Frontend.Pages
                 columns[i].Cards.AddRange(
                     (from array in cardArray
                                   where array.ColumnId == (i + 1)
-                                  select array).ToList());
+                                  select array));
             }
         }
     }

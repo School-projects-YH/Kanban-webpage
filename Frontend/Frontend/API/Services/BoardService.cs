@@ -1,25 +1,26 @@
-﻿using Frontend.API.Model;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Frontend.API.Model;
 
 namespace Frontend.API.Services
 {
-    public class CardService : IService<CardDTO>
+    public class BoardService : IService<BoardDTO>
     {
         private HttpClient _httpClient;
         private string baseUrl = "http://localhost:9000/";
-        private string uri = "api/card/";
+        private string uri = "api/board/";
         private string url
         { get { return baseUrl + uri; } }
 
-        public CardService(HttpClient httpClient)
+        public BoardService(HttpClient httpClient)
         {
             _httpClient = httpClient;
         }
 
-        public async Task<IEnumerable<CardDTO>> GetAll()
+        public async Task<IEnumerable<BoardDTO>> GetAll()
         {
             using (_httpClient)
             {
@@ -27,7 +28,7 @@ namespace Frontend.API.Services
 
                 if (response.IsSuccessStatusCode)
                 {
-                    var cards = await response.Content.ReadAsAsync<IEnumerable<CardDTO>>();
+                    var cards = await response.Content.ReadAsAsync<IEnumerable<BoardDTO>>();
                     return cards;
                 }
                 else
@@ -36,19 +37,30 @@ namespace Frontend.API.Services
                 }
             }
         }
-
-        public async Task<IEnumerable<CardDTO>> GetByBoardIdAsync(int boardId)
+        public async Task<IEnumerable<BoardDTO>> GetByUserIdAsync(int userId)
         {
             using (_httpClient)
             {
-                uri = "api/dto/";
-
-                HttpResponseMessage response = await _httpClient.GetAsync(url + boardId);
-                uri = "api/card/";
+                HttpResponseMessage response = await _httpClient.GetAsync(url + userId);
 
                 if (response.IsSuccessStatusCode)
                 {
-                    var cards = await response.Content.ReadAsAsync<IEnumerable<CardDTO>>();
+                    var cards = await response.Content.ReadAsAsync<BoardDTO[]>();
+                    return cards;
+                }
+                return null;
+            }
+        }
+
+        public async Task<IEnumerable<BoardDTO>> GetByBoardIdAsync(int boardId)
+        {
+            using (_httpClient)
+            {
+                HttpResponseMessage response = await _httpClient.GetAsync(url + boardId);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    var cards = await response.Content.ReadAsAsync<BoardDTO[]>();
                     return cards;
                 }
                 return null;
@@ -56,59 +68,52 @@ namespace Frontend.API.Services
         }
 
         // Create
-        public async Task<int> Create(CardDTO cardDTO)
+        public async Task<int> Create(BoardDTO boardDTO)
         {
-            using (_httpClient)
+            using (var _httpClient = new HttpClient())
             {
-                var response = await _httpClient.PostAsJsonAsync(url, cardDTO);
-                if(response.IsSuccessStatusCode)
+                var response = await _httpClient.PostAsJsonAsync(url, boardDTO);
+                if (response.IsSuccessStatusCode)
                 {
-
                     var uri = response.Headers.Location.ToString();
-                    string stringId = uri.Substring(uri.LastIndexOf('/') + 1);
+                    string stringId = uri.Substring(uri.LastIndexOf('=') + 1);
                     var id = Convert.ToInt32(stringId);
                     return id;
                 }
                 throw new Exception("Create Card not succesfull");
             }
         }
+      
 
         // Delete
 
-        public async Task Delete(CardDTO cardDTO)
+        public async Task Delete(BoardDTO boardDTO)
         {
             using (_httpClient)
             {
-                var response = await _httpClient.DeleteAsync(url + cardDTO.Id);
-            }
-        }
-        public async Task Delete(int id)
-        {
-            using (_httpClient)
-            {
-                var response = await _httpClient.DeleteAsync(url + id);
+                var response = await _httpClient.DeleteAsync(url + boardDTO.Id);
             }
         }
 
         // Update
-        public async Task<CardDTO> Update(CardDTO cardDTO)
+        public async Task<BoardDTO> Update(BoardDTO boardDTO)
         {
             using (_httpClient)
             {
-                var response = await _httpClient.PutAsJsonAsync(url + cardDTO.Id, cardDTO);
-                var card = await response.Content.ReadAsAsync<CardDTO>();
+                var response = await _httpClient.PutAsJsonAsync(url + boardDTO.Id, boardDTO);
+                var card = await response.Content.ReadAsAsync<BoardDTO>();
                 return card;
             }
         }
 
         // Find by id
 
-        public async Task<CardDTO> FindById(int id)
+        public async Task<BoardDTO> FindById(int id)
         {
             using (_httpClient)
             {
                 var response = await _httpClient.GetAsync(url + id);
-                var card = await response.Content.ReadAsAsync<CardDTO>();
+                var card = await response.Content.ReadAsAsync<BoardDTO>();
                 return card;
             }
         }
