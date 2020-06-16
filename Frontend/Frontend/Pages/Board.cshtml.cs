@@ -35,12 +35,22 @@ namespace Frontend.Pages
             board = new Board(Id);
             await GetCardsByBoardIdAsync(Id);
 
+
             int cardIdValue = Convert.ToInt32(Request.Form["cardId"]);
             if (cardIdValue != 0)
             {
                 int cardId = Convert.ToInt32(cardIdValue);
-                await api.MoveLeftAsync(cardId);
-                
+
+                var button = Request.Form["button"];
+                if (button == "left")
+                {
+                    await api.MoveLeftAsync(cardId);
+                }
+                else
+                {
+
+                    await api.MoveRightAsync(cardId);
+                }
             }
             else
             {
