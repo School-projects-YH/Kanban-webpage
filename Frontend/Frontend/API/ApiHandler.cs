@@ -62,17 +62,19 @@ namespace Frontend.API
                 var board = await response.Content.ReadAsAsync<BoardDTO[]>();
                 return board;
             }
-            return null;
+            throw new Exception();
         }
 
 
-        public async Task<BoardDTO> CreateBoard(string title)
+        public async Task<BoardDTO> CreateBoard(string title, int userId)
         {
             string url = "http://localhost:9000/api/board/";
 
             var board = new BoardDTO()
             {
-                Title = title
+                Title = title,
+                UserId = userId
+                
             };
 
             var response = await _client.PostAsJsonAsync(url, board);
@@ -80,7 +82,7 @@ namespace Frontend.API
             if (response.IsSuccessStatusCode)
             {
                 var uri = response.Headers.Location.ToString();
-                string id = uri.Substring(uri.LastIndexOf('/') + 1);
+                string id = uri.Substring(uri.LastIndexOf('=') + 1);
                 board.Id = Convert.ToInt32(id);
 
                 return board;
