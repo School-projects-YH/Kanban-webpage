@@ -1,4 +1,4 @@
-namespace Frontend.API.Model.DTO
+namespace Frontend.API.Model
 {
     public class UserLoginDTO :IEntity
     {

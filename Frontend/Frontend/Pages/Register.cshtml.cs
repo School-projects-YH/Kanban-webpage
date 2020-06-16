@@ -1,4 +1,3 @@
-using Frontend.API.Model.DTO;
 using Frontend.API.Model;
 using Frontend.API;
 using System;
@@ -37,9 +36,10 @@ namespace Frontend.Pages
                     user.Password = loginPassword;
 
 
-                    ApiHandler api = new ApiHandler(client);
-
-                    await api.CreateUser(user);
+                    using (var api = new ApiHandler())
+                    {
+                        await api.userService.Create(user);
+                    }
 
             
            

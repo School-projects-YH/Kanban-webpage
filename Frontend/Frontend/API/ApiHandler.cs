@@ -48,26 +48,6 @@ namespace Frontend.API
 
         /* ----------------------------- End Constructor ---------------------------- */
 
-        /*----------------------------------- User ---------------------------------*/
-        public async Task<int> CreateUser(UserLoginDTO user)
-        {
-            string url = baseUrl+"api/user/newUser";
-            var response = await _client.PostAsJsonAsync(url, user);
-
-            if (response.IsSuccessStatusCode)
-            {
-                var uri = response.Headers.Location.ToString();
-                string id = uri.Substring(uri.LastIndexOf('/') + 1);
-
-                return Convert.ToInt32(id);
-            }
-            else
-            {
-                return 0;
-            }
-
-        } 
-        /*--------------------------------- End User ---------------------------------*/
         /* -------------------------------- MoveLogic ------------------------------- */
 
         public async Task MoveLeftAsync(int id)
@@ -85,7 +65,7 @@ namespace Frontend.API
         {
             
 
-            string url = baseUrl+"api/cardmovement/right/" + id ;
+            string url = baseUrl + "api/cardmovement/right/" + id ;
 
             var client = new HttpClient();
 
@@ -95,20 +75,6 @@ namespace Frontend.API
         }
 
         /* ------------------------------ End MoveLogic ----------------------------- */
-        /* -------------------------------- DeleteCard ------------------------------- */
-
-        public async Task DeleteCardAsync(int id)
-        {
-            
-             string url = baseUrl+"api/Card/" + id ;
-
-            var client = new HttpClient();
-
-            await client.DeleteAsync(url);
-            
-        }
-
-        /* ------------------------------ End DeleteCard ----------------------------- */
 
         /* --------------------------------- Dispose -------------------------------- */
 
