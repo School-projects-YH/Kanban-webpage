@@ -41,9 +41,13 @@ namespace Frontend.Pages
             var button = Request.Form["button"];
             if (button == "left") {
                 await api.MoveLeftAsync(cardId);
-            } else {
+            } else if (button == "right"){
 
                 await api.MoveRightAsync(cardId);
+            } else if (button == "delete")
+            {
+                Console.WriteLine("tar bort kort");
+                await api.DeleteCardAsync(cardId);
             }
 
             var link = String.Format("/Board?id={0}", BoardId);

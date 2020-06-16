@@ -4,14 +4,20 @@
 @model CardDTO
 
 <link rel="stylesheet" type="text/css" href="~/css/Card.css" />
+<link rel="stylesheet" type="text/css" href="~/css/Board.css" />
 
-<div class="color-field"></div>
+<div  class="color-field" >
+
+        @await Component.InvokeAsync("DeleteCard")
+</div>
 
 <div class="card">
     <div class="card-body">
         <p>@Model.Info</p>
     </div>
     <div class="card-footer">
+
+
         @if (Model.ColumnId != 1)
         {
             @await Component.InvokeAsync("MovementButton", Movement.Left)
