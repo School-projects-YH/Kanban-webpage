@@ -13,20 +13,20 @@ namespace Frontend.Pages
     {
         private readonly ILogger<BoardModel> _logger;
         public static int BoardId { get; set; }
-        private ApiHandler api { get; }
         public Board board { get; set; }
+        public ICollection<CardDTO> cardDTOs;
 
         public BoardModel(ILogger<BoardModel> logger)
         {
+            
             _logger = logger;
-            api = new ApiHandler();
         }
 
         public async Task OnGet(int Id)
         {
             BoardId = Id;
             board = new Board(Id);
-
+            await GetColumnsByBoardIdAsync(Id);
             await GetCardsByBoardIdAsync(Id);
         }
 
@@ -37,38 +37,49 @@ namespace Frontend.Pages
 
 
             int cardIdValue = Convert.ToInt32(Request.Form["cardId"]);
-            if (cardIdValue != 0)
+            if (cardIdValue != 0) 
+            // Annoying to develop more POST forms with this solution
             {
                 int cardId = Convert.ToInt32(cardIdValue);
 
+                
                 var button = Request.Form["button"];
                 if (button == "left")
                 {
-                    await api.MoveLeftAsync(cardId);
+                    using (var api = new ApiHandler())
+                    {
+                        await api.moveLogicService.MoveLeftAsync(cardId);
+                    }
                 }
                 else if (button == "right")
                 {
-                    await api.MoveRightAsync(cardId);
+                    using (var api = new ApiHandler())
+                    {
+                        await api.moveLogicService.MoveRightAsync(cardId);
+                    }
                 }
                 else if (button == "delete")
                 {
-                Console.WriteLine("tar bort kort");
-                await api.DeleteCardAsync(cardId);
-                }
 
+                    using (var api = new ApiHandler())
+                    {
+                        await api.cardService.Delete(cardId);
+                    }
+                }
             }
             else
             {
-                // Samla data
+                // Collect data
                 string info = Request.Form["card-info"];
-                // Skapa card objekt
+                // Create card object
+                
                 var newCard = new CardDTO
                 {
-                    
+                    BoardId = Id,
                     ColumnId = 1,
                     Info = info
                 };
-                // Skicka till servern
+                // Send the created card to the server
                 using (var api = new ApiHandler())
                 {
                     await api.cardService.Create(newCard);
@@ -82,20 +93,32 @@ namespace Frontend.Pages
 
         public async Task GetCardsByBoardIdAsync(int Id)
         {
-            var cards = await api.cardService.GetByBoardIdAsync(Id);
-
-            await SortCardsIntoColumns(cards.AsEnumerable());
+            using(var api = new ApiHandler())
+            {
+                var cards = await api.cardService.GetByBoardIdAsync(Id);
+                await SortCardsIntoColumns(cards.AsEnumerable());
+            }
+        }
+        public async Task GetColumnsByBoardIdAsync(int Id)
+        {
+            using(var api = new ApiHandler())
+            {
+                board.columns = await api.columnService.GetColumnsByBoardIdAsync(Id);
+            }
         }
 
         private async Task SortCardsIntoColumns(IEnumerable<CardDTO> cards)
         {
+            // TODO
+            // Right now need to manually fill the column list in the board
             var cardArray = cards.ToArray();
-
-            for (int i = 0; i < board.columns.Count; i++)
+            var columns = board.columns.ToList();
+            for (int i = 0; i < columns.Count; i++)
             {
-                board.columns[i].Cards = (from array in cardArray
-                                          where array.ColumnId == (i + 1)
-                                          select array).ToList();
+                columns[i].Cards.AddRange(
+                    (from array in cardArray
+                                  where array.ColumnId == (i + 1)
+                                  select array));
             }
         }
     }

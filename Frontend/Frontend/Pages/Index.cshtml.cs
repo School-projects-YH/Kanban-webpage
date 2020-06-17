@@ -1,5 +1,4 @@
-﻿using Frontend.API.Model.DTO;
-using Frontend.API.Model;
+﻿using Frontend.API.Model;
 using Frontend.API;
 using System;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -36,15 +35,14 @@ namespace Frontend.Pages
         {
             var loginEmail = Request.Form["email"];
             var loginPassword = Request.Form["pass"];
+            
             UserLoginDTO user = new UserLoginDTO();
             user.UserEmail = loginEmail;
             user.Password = loginPassword;
-
-
+            
             ApiHandler api = new ApiHandler(client);
 
-            int userId = await api.UserLoginRequestAsync(user);
-
+            int userId = await api.userService.UserLoginRequestAsync(user);
 
             if (userId != 0)
             {
@@ -54,7 +52,6 @@ namespace Frontend.Pages
             {
                 return new RedirectToPageResult("Index");
             }
-
         }
     }
 }

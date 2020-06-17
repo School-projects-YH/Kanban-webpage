@@ -15,5 +15,6 @@ namespace Frontend.API.Services
         Task<T> Update(T entity);
 
         Task<T> FindById(int id);
+
     }
 }

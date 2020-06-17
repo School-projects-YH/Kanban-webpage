@@ -78,13 +78,19 @@ namespace Backend.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPost]
-        public async Task<ActionResult<Card>> PostCard(Card card)
+        public async Task<ActionResult<Card>> PostCard(CardDTO card)
         {
-            card.BoardId = 1;
-            _context.Card.Add(card);
+            var newCard = new Card()
+            {
+                Info = card.Info,
+                ColumnId = card.ColumnId,
+                BoardId = card.BoardId
+            };
+
+            _context.Card.Add(newCard);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetCard", new { id = card.Id }, card);
+            return CreatedAtAction("GetCard", new { id = newCard.Id }, newCard);
         }
 
         // DELETE: api/Card/5

@@ -32,24 +32,24 @@ namespace Backend.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<List<CardDTO>>> GetCard(int id)
         {
-           
-           var dtoQuery = await (from card in _context.Card
-                           where card.BoardId == id
-                           select new CardDTO
-                           {
-                               Id = card.Id,
-                               ColumnId = card.ColumnId,
-                               Info = card.Info
-                              
-                           }).ToListAsync();
+
+            var dtoQuery = await (from card in _context.Card
+                                  where card.BoardId == id
+                                  select new CardDTO
+                                  {
+                                      Id = card.Id,
+                                      ColumnId = card.ColumnId,
+                                      Info = card.Info
+
+                                  }).ToListAsync();
 
             if (dtoQuery == null)
             {
                 return NotFound();
             }
-             return Ok(dtoQuery);
-        
-        
+            return Ok(dtoQuery);
+
+
         }
 
         // PUT: api/Card/5

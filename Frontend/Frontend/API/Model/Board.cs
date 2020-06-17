@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using Frontend.API;
 
 namespace Frontend.API.Model
@@ -7,16 +8,17 @@ namespace Frontend.API.Model
     {
         private Board()
         {
+            boardDTO = new BoardDTO();
+            columns = new List<ColumnDTO>();
         }
 
-        public Board(int id) : this()
+        private readonly BoardDTO boardDTO;
+        public IEnumerable<ColumnDTO> columns;
+        public Board(int boardId) : this()
         {
-            for (int i = 0; i < 4; i++)
-            {
-                columns.Add(new Column("Test"));
-            }
+            boardDTO.Id = boardId;
         }
 
-        public List<Column> columns = new List<Column>();
+      
     }
 }

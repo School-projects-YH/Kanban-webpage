@@ -7,7 +7,7 @@ namespace Frontend.ViewComponents
 {
     public class ColumnViewComponent : ViewComponent
     {
-        public async Task<IViewComponentResult> InvokeAsync(Column column)
+        public async Task<IViewComponentResult> InvokeAsync(ColumnDTO column)
         {
            
                 return View(column);

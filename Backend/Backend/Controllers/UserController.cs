@@ -113,7 +113,7 @@ namespace Backend.Controllers
             _context.User.Remove(user);
             await _context.SaveChangesAsync();
 
-            return user;
+            return Ok(user);
         }
 
         private bool UserExists(int id)
